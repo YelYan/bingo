@@ -1,0 +1,393 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BINGO — Design tokens
+   Palette pulled directly from the brand mark:
+   charcoal letterforms, the orange counter-shape, the warm
+   paper the logo sits on, and the sand of the wordmark rule.
+   ============================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-paper: #f7f2ea;
+  --color-paper-2: #efe6da;
+  --color-paper-3: #e7dccd;
+
+  /* Ink */
+  --color-ink: #24272c;
+  --color-ink-2: #16181c;
+  --color-ink-3: #0e1013;
+  --color-ink-soft: #5b6068;
+
+  /* The spark.
+     `spark` is the brand orange — 3.13:1 on paper, so it is only ever used
+     for large type, fills and non-text marks. `spark-deep` is the same hue
+     taken to 5.42:1 for anything set below 24px. Don't collapse the two. */
+  --color-spark: #e2622b;
+  --color-spark-deep: #a94210;
+  --color-spark-lift: #f4813f;
+  --color-spark-wash: #f8e3d6;
+
+  /* Sand — the wordmark rule colour.
+     `sand` reads beautifully on ink (7:1) but only manages 2.3:1 on paper,
+     so light backgrounds get `sand-ink`: same warm taupe, 5.7:1. */
+  --color-sand: #b79e8b;
+  --color-sand-ink: #6e5c4c;
+  --color-sand-soft: #d6c6b5;
+
+  --color-line: #ddd1c1;
+  --color-line-dark: #33373d;
+
+  /* Type */
+  --font-display: var(--font-bricolage), "Trebuchet MS", sans-serif;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+
+  /* Breakpoint for the widest layout */
+  --breakpoint-3xl: 100rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-spark);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-spark);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Keep the sticky header from covering anchor targets */
+:target {
+  scroll-margin-top: 7rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   Signature texture — paper grain + warm vignette.
+   Fixed, non-interactive, ~1.6kb inline.
+   ============================================================ */
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.vignette {
+  background-image: radial-gradient(
+    120% 80% at 50% 0%,
+    #fdfaf6 0%,
+    var(--color-paper) 45%,
+    var(--color-paper-2) 100%
+  );
+}
+
+/* Hairline grid used behind hero + CTA blocks */
+.blueprint {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-sand) 26%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-sand) 26%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 88px 88px;
+  mask-image: radial-gradient(80% 60% at 50% 40%, #000 0%, transparent 78%);
+}
+
+/* Interactive variant of the blueprint, used behind the hero.
+   Inherits the hairlines above; overrides the mask so squares near the
+   edges — where most of the negative space is — stay fully visible. */
+.grid-field {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  /* auto-fill resolves the column count from the real width, so the layer
+     stays correct even if the JS cell count is momentarily behind. */
+  grid-template-columns: repeat(auto-fill, 88px);
+  grid-auto-rows: 88px;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: radial-gradient(115% 95% at 50% 45%, #000 45%, transparent 100%);
+}
+
+.grid-cell {
+  position: relative;
+}
+
+/* The square that pops. Sized well under the cell so it reads as a mark
+   sitting on the grid rather than a block of background colour. */
+.grid-cell::after {
+  content: "";
+  position: absolute;
+  inset: 30%;
+  border-radius: 5px;
+  background-color: var(--color-spark);
+  opacity: 0;
+  transform: scale(0.25) rotate(-14deg);
+  transition:
+    opacity 0.5s var(--ease-out-expo),
+    transform 0.5s var(--ease-out-expo);
+}
+
+.grid-cell[data-lit="on"]::after {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  box-shadow: 0 12px 22px -10px color-mix(in srgb, var(--color-spark) 75%, transparent);
+  transition:
+    opacity 0.18s var(--ease-out-expo),
+    transform 0.36s var(--ease-spring);
+}
+
+.grid-cell[data-lit="near"]::after {
+  opacity: 0.24;
+  transform: scale(0.52) rotate(-7deg);
+  transition-duration: 0.3s;
+}
+
+.blueprint-dark {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+/* ============================================================
+   The aha — an orange dot that snaps into place under a word
+   ============================================================ */
+
+.aha {
+  position: relative;
+  white-space: nowrap;
+}
+
+.aha::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.06em;
+  height: 0.075em;
+  width: 100%;
+  background: var(--color-spark);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: aha-draw 0.7s var(--ease-out-expo) 0.35s forwards;
+}
+
+@keyframes aha-draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Link underline that wipes in from the left */
+.link-wipe {
+  background-image: linear-gradient(
+    currentColor 0 0
+  );
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s var(--ease-out-expo);
+}
+
+.link-wipe:hover,
+.link-wipe:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ============================================================
+   Marquee
+   ============================================================ */
+
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 38s) linear infinite;
+}
+
+.marquee-host:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ============================================================
+   Scroll reveal — driven by IntersectionObserver in <Reveal/>
+   ============================================================ */
+
+/* Scoped to [data-js], which an inline script sets before the body parses.
+   Without JS the attribute never appears, the rules never apply, and the
+   page renders fully visible — content must never depend on an observer. */
+[data-js] [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-js] [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   Cursor spark (pointer:fine only)
+   ============================================================ */
+
+.spark-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  height: 10px;
+  width: 10px;
+  border-radius: 999px;
+  background: var(--color-spark);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition:
+    width 0.28s var(--ease-spring),
+    height 0.28s var(--ease-spring),
+    opacity 0.3s ease;
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+.hair {
+  border-top: 1px solid var(--color-line);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-sand-ink);
+}
+
+/* Firefox/Chrome scrollbar in brand colours */
+@supports (scrollbar-color: red blue) {
+  html {
+    scrollbar-color: var(--color-sand) var(--color-paper-2);
+    scrollbar-width: thin;
+  }
+}
+
+/* ============================================================
+   Reduced motion — kill every decorative movement
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-js] [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .aha::after {
+    transform: scaleX(1);
+  }
+
+  .spark-cursor {
+    display: none;
+  }
+
+  /* The square still appears — it just stops popping. */
+  .grid-cell::after {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@media print {
+  .grain::after,
+  .spark-cursor {
+    display: none;
+  }
+}
