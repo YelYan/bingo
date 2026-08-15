@@ -91,6 +91,30 @@ Built in rather than bolted on, since both are things Bingo sells:
 - Per-route metadata and canonicals, `sitemap.xml`, `robots.txt`, `ProfessionalService` JSON-LD site-wide and `FAQPage` + `OfferCatalog` on pricing
 - All 19 routes prerender to static HTML; shared JS is ~102 kB
 
-## Deploy
+## Deploy — Cloudflare Workers
 
-Vercel is the path of least resistance — import the repo, no configuration needed. Any host that runs `next build` and `next start` works, as does a static export if you first replace the server action in `lib/actions.ts` with a form endpoint.
+Configured for Cloudflare via the [OpenNext adapter](https://opennext.js.org/cloudflare), which runs the real Next.js server on Workers. A static export is *not* an option while the contact form uses a server action.
+
+```bash
+npm run deploy
+```
+
+That builds with `opennextjs-cloudflare` and deploys via Wrangler. First time on a new machine you need to authenticate once:
+
+```bash
+npx wrangler login
+```
+
+To check the Workers runtime locally before shipping — `workerd`, not Node, so it catches things `next start` won't:
+
+```bash
+npm run preview
+```
+
+Config lives in [`wrangler.jsonc`](wrangler.jsonc) (worker name `bingo`, `nodejs_compat`, assets from `.open-next/assets`) and [`open-next.config.ts`](open-next.config.ts). Defaults are correct here: everything is prerendered, so there is no incremental cache to wire up. Add R2/KV caching there if ISR is introduced later.
+
+### Continuous deployment
+
+Alternatively, connect this GitHub repo in **Workers & Pages → Create → Workers → Import a repository**. Build command `npx opennextjs-cloudflare build`, deploy command `npx wrangler deploy`. Every push to `main` then ships automatically, with no local Wrangler auth needed.
+
+Vercel also works with no configuration if you'd rather — nothing here is Cloudflare-specific beyond the two config files.
