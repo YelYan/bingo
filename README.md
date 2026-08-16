@@ -113,8 +113,21 @@ npm run preview
 
 Config lives in [`wrangler.jsonc`](wrangler.jsonc) (worker name `bingo`, `nodejs_compat`, assets from `.open-next/assets`) and [`open-next.config.ts`](open-next.config.ts). Defaults are correct here: everything is prerendered, so there is no incremental cache to wire up. Add R2/KV caching there if ISR is introduced later.
 
-### Continuous deployment
+### Continuous deployment (Workers Builds)
 
-Alternatively, connect this GitHub repo in **Workers & Pages → Create → Workers → Import a repository**. Build command `npx opennextjs-cloudflare build`, deploy command `npx wrangler deploy`. Every push to `main` then ships automatically, with no local Wrangler auth needed.
+Connect this repo in **Workers & Pages → Create → Workers → Import a repository**, then:
+
+| Setting | Value |
+| --- | --- |
+| Build command | `npx opennextjs-cloudflare build` |
+| Deploy command | `npx wrangler deploy` (the default) |
+| Root directory | leave empty |
+
+Every push to `main` then builds and ships automatically; pushes to other branches upload a preview version instead (`npx wrangler versions upload`).
+
+Two things that will break the build if changed:
+
+- **The Worker name in the dashboard must be `bingo`** — it has to match `name` in `wrangler.jsonc`.
+- **[`.node-version`](.node-version) pins Node to 22.23.2.** The build image defaults to Node 24; 22.23.2 is preinstalled there, matches local development, and avoids an unpinned major moving under the build.
 
 Vercel also works with no configuration if you'd rather — nothing here is Cloudflare-specific beyond the two config files.
