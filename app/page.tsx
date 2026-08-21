@@ -109,7 +109,7 @@ function Hero() {
           <div data-grid-avoid className="lg:col-span-5">
             <Reveal delay={140} className="relative">
               <WindowFrame
-                label="bingostudio.com"
+                label="bingowebstudio.com"
                 className="shadow-[0_36px_80px_-40px_rgba(36,39,44,0.4)]"
                 bodyClassName="bg-white/60 p-6 sm:p-8"
               >
