@@ -7,8 +7,8 @@ export const site = {
   description:
     "Bingo is a web design studio building sites that code, brand and rank. We design the moment someone finally gets what you do — then we ship it.",
   url: "https://www.bingowebstudio.com",
-  email: "hello@bingowebstudio.com",
-  phone: "+1 (555) 019-2846",
+  email: "bingo.officialwebstudio@gmail.com",
+  phone: "+66 61 775 6151",
   location: "Remote-first · Working across 6 timezones",
   founded: 2019,
   socials: [
