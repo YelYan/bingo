@@ -1,0 +1,6 @@
+# Cloudflare Workers serves every static asset with `max-age=0, must-revalidate`
+# by default -- safe for ordinary files, wasteful for Next's build output,
+# whose filenames are content-hashed (change whenever the content does).
+# Those can be cached forever with zero staleness risk.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

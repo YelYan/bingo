@@ -16,7 +16,7 @@ import { projects } from "@/lib/projects";
 import { process, services } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Web Design, Branding & SEO Services",
   description:
     "Hand-coded websites, brand systems with real rules, and technical-first SEO — the three things Bingo does, and exactly what you get.",
   alternates: { canonical: "/services" },

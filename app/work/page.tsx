@@ -6,7 +6,7 @@ import { Container } from "@/components/ui";
 import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
-  title: "Work",
+  title: "Web Design Portfolio & Case Studies",
   description:
     "Six case studies from Bingo — hand-coded websites, brand systems and SEO programmes, with the numbers that came out the other side.",
   alternates: { canonical: "/work" },

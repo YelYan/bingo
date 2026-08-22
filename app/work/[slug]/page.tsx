@@ -8,6 +8,7 @@ import { Spark } from "@/components/logo";
 import { WindowFrame } from "@/components/window-frame";
 import { Arrow, Container, Eyebrow, Tag } from "@/components/ui";
 import { adjacentProjects, getProject, projects } from "@/lib/projects";
+import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -39,8 +40,28 @@ export default async function ProjectPage({ params }: Params) {
 
   const { prev, next } = adjacentProjects(slug);
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Work", item: `${site.url}/work` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.name,
+        item: `${site.url}/work/${project.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       {/* ---------------- masthead ---------------- */}
       <section className="vignette relative overflow-hidden pt-32 pb-16 sm:pt-40">
         <div aria-hidden="true" className="blueprint absolute inset-0" />

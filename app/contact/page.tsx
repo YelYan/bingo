@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 import { process } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact a Web Design Studio",
   description:
     "Tell Bingo what isn't landing on your current site. One reply from one person, usually within a business day.",
   alternates: { canonical: "/contact" },

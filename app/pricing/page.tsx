@@ -9,9 +9,9 @@ import { Container, SectionHeading } from "@/components/ui";
 import { addOns, everyPlan, faqs, plans } from "@/lib/pricing";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Web Design Studio Pricing & Plans",
   description:
-    "Design, build, hosting, updates and SEO in one predictable monthly figure. Three plans from $279/month, no setup fee, cancel any month.",
+    "Bingo web design studio pricing: design, build, hosting, updates and SEO in one predictable monthly figure. Three plans from $279/month, no setup fee, cancel any month.",
   alternates: { canonical: "/pricing" },
 };
 

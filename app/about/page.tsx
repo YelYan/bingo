@@ -9,7 +9,7 @@ import { process } from "@/lib/services";
 import { site, stats } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Studio",
+  title: "About Our Web Design Studio",
   description:
     "Bingo is a small, remote-first web design studio. Here is how we work, what we believe, and who you will actually be talking to.",
   alternates: { canonical: "/about" },

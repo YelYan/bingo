@@ -55,11 +55,18 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
     locale: "en_US",
+    // Object-based metadata merges down the layout tree, so every page that
+    // doesn't set its own `openGraph.images` inherits this one. The file
+    // itself (app/opengraph-image.tsx) renders once at build time.
+    images: [
+      { url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — ${site.tagline}` },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
