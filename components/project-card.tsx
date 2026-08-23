@@ -1,6 +1,6 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { Project } from "@/lib/projects";
-import { ProjectPoster } from "./project-poster";
+import { BrowserMockup } from "./browser-mockup";
 import { Arrow } from "./ui";
 
 export function ProjectCard({
@@ -17,32 +17,12 @@ export function ProjectCard({
         className="block rounded-2xl outline-offset-4"
         aria-label={`${project.name} — ${project.headline}`}
       >
-        <div className="overflow-hidden rounded-2xl border border-line bg-paper-2">
-          {/* chrome bar, straight off the mark */}
-          <div className="flex items-center gap-2 border-b border-line bg-paper px-4 py-3">
-            <span aria-hidden="true" className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-ink" />
-              <span className="h-2 w-2 rounded-full bg-spark" />
-              <span className="h-2 w-2 rounded-full bg-sand" />
-            </span>
-            <span className="ml-2 truncate font-sans text-[0.6875rem] tracking-[0.12em] text-sand-ink uppercase">
-              {project.slug}.com
-            </span>
-            <span className="ml-auto tabular font-sans text-[0.6875rem] tracking-[0.12em] text-sand-ink">
-              {project.year}
-            </span>
-          </div>
-
-          <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/10]">
-            <ProjectPoster
-              variant={project.poster.variant}
-              ink={project.poster.ink}
-              spark={project.poster.spark}
-              paper={project.poster.paper}
-              className={priority ? "" : ""}
-            />
-          </div>
-        </div>
+        <BrowserMockup
+          domain={project.domain}
+          screenshot={project.screenshot}
+          alt={`${project.name} homepage`}
+          priority={priority}
+        />
 
         <div className="mt-6 flex items-start justify-between gap-6">
           <div>
@@ -71,22 +51,16 @@ export function ProjectCard({
         </div>
       </Link>
 
-      {/* headline result, pulled out so the card sells the outcome */}
-      <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-t border-line pt-5">
-        {project.results.slice(0, 3).map((r) => (
-          <div key={r.label}>
-            <dt className="sr-only">{r.label}</dt>
-            <dd>
-              <span className="tabular block font-display text-xl font-bold tracking-[-0.04em] text-spark-deep">
-                {r.value}
-              </span>
-              <span className="mt-0.5 block max-w-[12rem] text-xs leading-snug text-ink-soft">
-                {r.label}
-              </span>
-            </dd>
-          </div>
+      <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-t border-line pt-5">
+        {project.highlights.slice(0, 3).map((h) => (
+          <li
+            key={h}
+            className="max-w-[16rem] text-xs leading-snug text-ink-soft"
+          >
+            {h}
+          </li>
         ))}
-      </dl>
+      </ul>
     </article>
   );
 }

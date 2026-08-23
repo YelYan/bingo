@@ -29,7 +29,6 @@ export default function HomePage() {
       <ServicesSection />
       <WorkSection featured={featured} />
       <ProcessSection />
-      <ProofSection />
       <PricingTeaser />
       <CtaBand />
     </>
@@ -362,36 +361,6 @@ function ProcessSection() {
             ))}
           </ol>
         </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* Proof                                                               */
-/* ================================================================== */
-
-function ProofSection() {
-  const quote = projects.find((p) => p.quote)?.quote;
-
-  return (
-    <section className="bg-paper-2 py-24 sm:py-32">
-      <Container>
-        <Reveal className="mx-auto max-w-4xl text-center">
-          <Eyebrow>In their words</Eyebrow>
-          <blockquote className="mt-8">
-            <p className="font-serif text-[clamp(1.7rem,4.4vw,3.1rem)] leading-[1.12] text-ink">
-              &ldquo;{quote?.text}&rdquo;
-            </p>
-            <footer className="mt-8 text-sm text-ink-soft">
-              <cite className="font-sans font-semibold text-ink not-italic">
-                {quote?.author}
-              </cite>
-              <span className="mx-2 text-sand-ink">—</span>
-              {quote?.role}
-            </footer>
-          </blockquote>
-        </Reveal>
       </Container>
     </section>
   );

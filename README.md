@@ -77,7 +77,7 @@ The layer is `pointer-events: none` and listens on the parent `<section>`, so it
 2. **Copy and prices** — everything in `lib/` is written as a plausible studio, but the case studies, team members, testimonials and plan prices are placeholders. Replace them with yours.
 3. **Contact details** in `lib/site.ts` are real and live — email, phone and `url` (`https://www.bingowebstudio.com`). That one `url` constant feeds `metadataBase`, every per-route canonical, `og:url`, `sitemap.xml`, `robots.txt` and the JSON-LD, so change it there and nowhere else.
 4. **Contact form delivery** — `lib/actions.ts` validates, runs a honeypot and returns success, but **sends nothing**. There is a marked block where a provider (Resend, Postmark, a CRM webhook) plugs in. Note that this file is `"use server"`, so it may only export async functions — the state type and its initial value live in `lib/contact-state.ts` for that reason. Adding a non-function export there compiles fine and then throws at request time.
-5. **Case-study imagery** — each project currently renders a generated SVG composition (`components/project-poster.tsx`) in its own palette, with one orange element that animates on hover. If you'd rather show screenshots, replace `<ProjectPoster />` inside `project-card.tsx` and the case-study page with `next/image`.
+5. **Case-study imagery** — `projects.ts` now points at real screenshots in `public/work/shots/`, rendered through `components/browser-mockup.tsx` (a chrome-bar frame around `next/image`). Re-capture a screenshot any time a live site's homepage changes, and keep `highlights` factual — no invented metrics or quotes, since these are real, linkable client sites.
 
 ## Accessibility and SEO
 

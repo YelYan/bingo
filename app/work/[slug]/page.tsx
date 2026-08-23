@@ -1,12 +1,10 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/cta-band";
-import { ProjectPoster } from "@/components/project-poster";
+import { BrowserMockup } from "@/components/browser-mockup";
 import { Reveal } from "@/components/reveal";
-import { Spark } from "@/components/logo";
-import { WindowFrame } from "@/components/window-frame";
-import { Arrow, Container, Eyebrow, Tag } from "@/components/ui";
+import { Arrow, ButtonLink, Container, Eyebrow, Tag } from "@/components/ui";
 import { adjacentProjects, getProject, projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 
@@ -80,7 +78,7 @@ export default async function ProjectPage({ params }: Params) {
                 <Tag key={c}>{c}</Tag>
               ))}
               <span className="tabular ml-1 text-xs tracking-[0.16em] text-sand-ink uppercase">
-                {project.sector} · {project.year}
+                {project.sector}
               </span>
             </div>
 
@@ -90,80 +88,57 @@ export default async function ProjectPage({ params }: Params) {
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-ink-soft">
               {project.summary}
             </p>
+
+            <div className="mt-8">
+              <ButtonLink href={project.url}>Visit {project.domain}</ButtonLink>
+            </div>
           </Reveal>
         </Container>
       </section>
 
-      {/* ---------------- poster ---------------- */}
+      {/* ---------------- screenshot ---------------- */}
       <Container>
         <Reveal>
-          <WindowFrame
-            label={`${project.slug}.com`}
-            className="group shadow-[0_40px_90px_-50px_rgba(36,39,44,0.45)]"
-          >
-            <div className="aspect-[16/9] w-full">
-              <ProjectPoster
-                variant={project.poster.variant}
-                ink={project.poster.ink}
-                spark={project.poster.spark}
-                paper={project.poster.paper}
-              />
-            </div>
-          </WindowFrame>
+          <div className="shadow-[0_40px_90px_-50px_rgba(36,39,44,0.45)]">
+            <BrowserMockup
+              domain={project.domain}
+              screenshot={project.screenshot}
+              alt={`${project.name} homepage`}
+              priority
+            />
+          </div>
         </Reveal>
       </Container>
 
-      {/* ---------------- results ---------------- */}
+      {/* ---------------- highlights ---------------- */}
       <section className="py-20 sm:py-28">
-        <Container>
-          <dl className="grid gap-10 border-y border-line py-12 sm:grid-cols-3">
-            {project.results.map((r) => (
-              <div key={r.label}>
-                <dt className="sr-only">{r.label}</dt>
-                <dd>
-                  <span className="tabular block font-display text-[clamp(2.6rem,6vw,4rem)] leading-none font-extrabold tracking-[-0.05em] text-spark">
-                    {r.value}
-                  </span>
-                  <span className="mt-3 block max-w-[16rem] text-sm leading-snug text-ink-soft">
-                    {r.label}
-                  </span>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </Container>
-      </section>
-
-      {/* ---------------- narrative ---------------- */}
-      <section className="pb-24 sm:pb-32">
         <Container>
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="lg:sticky lg:top-32">
-                <Eyebrow tone="spark">The finding</Eyebrow>
+                <Eyebrow tone="spark">What it is</Eyebrow>
                 <p className="mt-6 font-serif text-[clamp(1.5rem,3vw,2.1rem)] leading-[1.2] text-ink">
-                  {project.problem}
+                  {project.summary}
                 </p>
 
                 <div className="mt-10 border-t border-line pt-6">
-                  <h2 className="text-[0.6875rem] font-semibold tracking-[0.22em] text-sand-ink uppercase">
-                    Stack
-                  </h2>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {project.stack.map((t) => (
-                      <li key={t}>
-                        <Tag>{t}</Tag>
-                      </li>
-                    ))}
-                  </ul>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-wipe inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink hover:text-spark-deep"
+                  >
+                    Open the live site
+                    <Arrow />
+                  </a>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-7">
-              <Eyebrow>What we did</Eyebrow>
+              <Eyebrow>On the site</Eyebrow>
               <ol className="mt-8">
-                {project.approach.map((step, i) => (
+                {project.highlights.map((step, i) => (
                   <Reveal
                     key={step}
                     as="li"
@@ -179,24 +154,6 @@ export default async function ProjectPage({ params }: Params) {
                   </Reveal>
                 ))}
               </ol>
-
-              {project.quote ? (
-                <Reveal className="mt-14 rounded-2xl bg-ink p-8 text-paper sm:p-10">
-                  <Spark className="h-3.5 w-2" />
-                  <blockquote className="mt-5">
-                    <p className="font-serif text-[clamp(1.4rem,2.8vw,1.9rem)] leading-[1.25]">
-                      &ldquo;{project.quote.text}&rdquo;
-                    </p>
-                    <footer className="mt-6 text-sm text-sand">
-                      <cite className="font-sans font-semibold text-paper not-italic">
-                        {project.quote.author}
-                      </cite>
-                      <span className="mx-2">—</span>
-                      {project.quote.role}
-                    </footer>
-                  </blockquote>
-                </Reveal>
-              ) : null}
             </div>
           </div>
         </Container>
@@ -241,9 +198,9 @@ export default async function ProjectPage({ params }: Params) {
       </section>
 
       <CtaBand
-        eyebrow="Similar problem?"
-        title="Most of these started as a hunch that something was off."
-        secondary={{ href: "/work", label: "Read another case" }}
+        eyebrow="Like what you see?"
+        title="Your site could be the next one on this page."
+        secondary={{ href: "/work", label: "See another site" }}
       />
     </>
   );
