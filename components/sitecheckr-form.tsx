@@ -2,21 +2,24 @@
 
 import { useActionState, useId } from "react";
 import { useFormStatus } from "react-dom";
-import { submitRankView } from "@/lib/actions";
+import { submitSiteCheckr } from "@/lib/actions";
 import { parseReport } from "@/lib/parse-report";
-import { initialRankViewState } from "@/lib/rankview-state";
+import { initialSiteCheckrState } from "@/lib/sitecheckr-state";
 import { Spark } from "./logo";
 import { Arrow } from "./ui";
 
 const REPORT_HEADINGS = [
-  "GOOGLE SEARCH",
-  "GOOGLE BUSINESS PROFILE",
-  "SOCIAL PRESENCE",
+  "TITLE & META",
+  "MOBILE & TECHNICAL",
+  "SEARCH & SOCIAL",
   "THREE QUICK WINS",
 ] as const;
 
-export function RankViewForm() {
-  const [state, formAction] = useActionState(submitRankView, initialRankViewState);
+export function SiteCheckrForm() {
+  const [state, formAction] = useActionState(
+    submitSiteCheckr,
+    initialSiteCheckrState,
+  );
   const ids = useId();
 
   if (state.status === "success" && state.report) {
@@ -29,7 +32,7 @@ export function RankViewForm() {
       >
         <Spark className="h-3.5 w-2" />
         <h2 className="mt-5 text-2xl text-ink">
-          {state.values?.businessName}&apos;s visibility report
+          What we found on {state.values?.url}
         </h2>
 
         <div className="mt-8 space-y-7">
@@ -60,10 +63,10 @@ export function RankViewForm() {
             <Arrow />
           </a>
           <a
-            href="/tools/rankview"
+            href="/tools/sitecheckr"
             className="text-sm font-medium text-ink-soft underline decoration-line underline-offset-4 hover:text-ink"
           >
-            Check another business
+            Check another site
           </a>
         </div>
       </div>
@@ -81,25 +84,42 @@ export function RankViewForm() {
         </p>
       ) : null}
 
-      <Field
-        id={`${ids}-business`}
-        name="business_name"
-        label="Business Name"
-        autoComplete="organization"
-        defaultValue={state.values?.businessName}
-        error={state.errors?.businessName}
-        required
-      />
-      <Field
-        id={`${ids}-location`}
-        name="location"
-        label="City / Area"
-        autoComplete="address-level2"
-        defaultValue={state.values?.location}
-        error={state.errors?.location}
-        hint="Wherever customers would search for you — e.g. 'Bangkok' or 'Chatuchak'."
-        required
-      />
+      <div>
+        <label
+          htmlFor={`${ids}-url`}
+          className="block text-sm font-semibold text-ink"
+        >
+          Website URL
+          <span aria-hidden="true" className="ml-1 text-spark-deep">
+            *
+          </span>
+        </label>
+        <input
+          id={`${ids}-url`}
+          name="url"
+          type="text"
+          inputMode="url"
+          autoComplete="url"
+          required
+          defaultValue={state.values?.url}
+          placeholder="yoursite.com"
+          aria-describedby={
+            state.errors?.url ? `${ids}-url-error` : undefined
+          }
+          aria-invalid={state.errors?.url ? true : undefined}
+          className={`mt-2.5 min-h-12 w-full rounded-xl border bg-paper px-4 text-[1.0625rem] text-ink transition-colors placeholder:text-sand-ink hover:border-ink focus:border-ink ${
+            state.errors?.url ? "border-spark" : "border-line"
+          }`}
+        />
+        {state.errors?.url ? (
+          <p
+            id={`${ids}-url-error`}
+            className="mt-2 text-sm font-medium text-spark-deep"
+          >
+            {state.errors.url}
+          </p>
+        ) : null}
+      </div>
 
       {/* honeypot */}
       <div aria-hidden="true" className="absolute -left-[9999px]">
@@ -107,7 +127,7 @@ export function RankViewForm() {
         <input
           id={`${ids}-hp`}
           type="text"
-          name="company_site"
+          name="company"
           tabIndex={-1}
           autoComplete="off"
         />
@@ -116,7 +136,7 @@ export function RankViewForm() {
       <div className="flex flex-wrap items-center gap-5 pt-2">
         <SubmitButton />
         <p className="text-sm text-ink-soft">
-          Real search, right now — not a form that sits in an inbox.
+          We scan the page directly — nothing saved, nothing sent anywhere else.
         </p>
       </div>
     </form>
@@ -132,7 +152,7 @@ function SubmitButton() {
       disabled={pending}
       className="group inline-flex min-h-13 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-spark px-8 font-semibold text-ink-2 transition-colors duration-200 hover:bg-spark-lift disabled:cursor-wait disabled:opacity-70"
     >
-      {pending ? "Searching…" : "Check My Visibility"}
+      {pending ? "Scanning…" : "Audit My Website Free"}
       {pending ? (
         <span
           aria-hidden="true"
@@ -142,68 +162,5 @@ function SubmitButton() {
         <Arrow />
       )}
     </button>
-  );
-}
-
-function Field({
-  id,
-  name,
-  label,
-  hint,
-  error,
-  required,
-  defaultValue,
-  autoComplete,
-}: {
-  id: string;
-  name: string;
-  label: string;
-  hint?: string;
-  error?: string;
-  required?: boolean;
-  defaultValue?: string;
-  autoComplete?: string;
-}) {
-  const hintId = hint ? `${id}-hint` : undefined;
-  const errorId = error ? `${id}-error` : undefined;
-  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
-
-  return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-ink">
-        {label}
-        {required ? (
-          <span aria-hidden="true" className="ml-1 text-spark-deep">
-            *
-          </span>
-        ) : null}
-      </label>
-
-      <input
-        id={id}
-        name={name}
-        type="text"
-        required={required}
-        defaultValue={defaultValue}
-        autoComplete={autoComplete}
-        aria-describedby={describedBy}
-        aria-invalid={error ? true : undefined}
-        className={`mt-2.5 min-h-12 w-full rounded-xl border bg-paper px-4 text-[1.0625rem] text-ink transition-colors placeholder:text-sand-ink hover:border-ink focus:border-ink ${
-          error ? "border-spark" : "border-line"
-        }`}
-      />
-
-      {hint ? (
-        <p id={hintId} className="mt-2 text-sm text-ink-soft">
-          {hint}
-        </p>
-      ) : null}
-
-      {error ? (
-        <p id={errorId} className="mt-2 text-sm font-medium text-spark-deep">
-          {error}
-        </p>
-      ) : null}
-    </div>
   );
 }

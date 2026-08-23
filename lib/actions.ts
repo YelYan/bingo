@@ -2,6 +2,8 @@
 
 import type { ContactState } from "./contact-state";
 import type { RankViewState } from "./rankview-state";
+import type { SiteCheckrState } from "./sitecheckr-state";
+import { auditHtml } from "./site-audit";
 import {
   CLAUDE_MODEL_SEARCH,
   WEB_SEARCH_TOOL,
@@ -143,6 +145,82 @@ export async function submitRankView(
       status: "error",
       message: "Something went wrong running the check. Try again in a moment.",
       values,
+    };
+  }
+}
+
+function normalizeUrl(input: string): string | null {
+  let value = input.trim();
+  if (!value) return null;
+  if (!/^https?:\/\//i.test(value)) value = `https://${value}`;
+
+  try {
+    return new URL(value).toString();
+  } catch {
+    return null;
+  }
+}
+
+export async function submitSiteCheckr(
+  _prev: SiteCheckrState,
+  formData: FormData,
+): Promise<SiteCheckrState> {
+  const rawUrl = String(formData.get("url") ?? "").trim();
+
+  // Honeypot — same pattern as the other tools.
+  if (String(formData.get("company") ?? "")) {
+    return { status: "success", values: { url: rawUrl }, message: "Thanks!" };
+  }
+
+  const normalized = normalizeUrl(rawUrl);
+  if (!normalized) {
+    return {
+      status: "error",
+      message: "A couple of fields need another look.",
+      errors: { url: "Enter a real website address, like yoursite.com." },
+      values: { url: rawUrl },
+    };
+  }
+
+  try {
+    const start = Date.now();
+    const response = await fetch(normalized, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(8000),
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (compatible; BingoSiteCheckr/1.0; +https://www.bingowebstudio.com)",
+      },
+    });
+    const elapsedMs = Date.now() - start;
+
+    if (!response.ok) {
+      return {
+        status: "error",
+        message: `That site responded with an error (HTTP ${response.status}). Double-check the URL and try again.`,
+        values: { url: rawUrl },
+      };
+    }
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.includes("text/html")) {
+      return {
+        status: "error",
+        message: "That URL didn't return a webpage we can scan.",
+        values: { url: rawUrl },
+      };
+    }
+
+    const html = await response.text();
+    const report = auditHtml(html, response.url || normalized, elapsedMs);
+
+    return { status: "success", values: { url: rawUrl }, report };
+  } catch (err) {
+    console.error("SiteCheckr error:", err);
+    return {
+      status: "error",
+      message: "Couldn't reach that site — check the URL and try again in a moment.",
+      values: { url: rawUrl },
     };
   }
 }

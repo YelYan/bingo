@@ -40,6 +40,7 @@ export const tools: Tool[] = [
       "Get a clear, easy-to-read report on what to fix",
     ],
     cta: "Audit My Website Free",
+    href: "/tools/sitecheckr",
   },
   {
     slug: "rankview",
