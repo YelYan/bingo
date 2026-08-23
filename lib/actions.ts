@@ -1,6 +1,16 @@
 "use server";
 
 import type { ContactState } from "./contact-state";
+import {
+  CLAUDE_MODEL_FAST,
+  CLAUDE_MODEL_SEARCH,
+  WEB_SEARCH_TOOL,
+  extractText,
+  getClaudeClient,
+} from "./claude";
+import type { PromptNestState } from "./promptnest-state";
+import type { RankViewState } from "./rankview-state";
+import type { SiteCheckrState } from "./sitecheckr-state";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -12,6 +22,7 @@ export async function submitContact(
     name: String(formData.get("name") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
     company: String(formData.get("company") ?? "").trim(),
+    siteUrl: String(formData.get("site_url") ?? "").trim(),
     brief: String(formData.get("brief") ?? "").trim(),
   };
 
@@ -24,7 +35,7 @@ export async function submitContact(
   if (values.name.length < 2) errors.name = "Tell us who you are.";
   if (!EMAIL.test(values.email)) errors.email = "That address looks incomplete.";
   if (values.brief.length < 20)
-    errors.brief = "A little more detail helps — 20 characters minimum.";
+    errors.brief = "A little more detail helps us actually help you — 20 characters minimum.";
 
   if (Object.keys(errors).length > 0) {
     return {
@@ -48,6 +59,6 @@ export async function submitContact(
   return {
     status: "success",
     message:
-      "Got it. You'll hear back from a human within one business day — usually sooner.",
+      "We got your message and we're already thinking about your project. Expect to hear from us within one business day, usually sooner.",
   };
 }

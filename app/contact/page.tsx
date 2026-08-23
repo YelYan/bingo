@@ -8,9 +8,9 @@ import { site } from "@/lib/site";
 import { process } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Contact a Web Design Studio",
+  title: "Contact Us",
   description:
-    "Tell Bingo what isn't landing on your current site. One reply from one person, usually within a business day.",
+    "Let's build something worth bragging about. Tell Bingo about your business and we'll take it from there — one reply from one person, usually within a business day.",
   alternates: { canonical: "/contact" },
 };
 
@@ -21,11 +21,11 @@ export default function ContactPage() {
         eyebrow="Contact"
         title={
           <>
-            Start with the
-            <br /> thing that annoys you.
+            Let&apos;s Build Something
+            <br /> Worth Bragging About.
           </>
         }
-        lead="Not a brief, not a spec. Just the part of your website, brand or search presence that keeps bothering you. That is almost always the right place to begin."
+        lead="Tell us a bit about your business — we'll take it from there."
       />
 
       <section className="pb-24 sm:pb-32">
@@ -45,9 +45,16 @@ export default function ContactPage() {
                   </h2>
                   <a
                     href={`mailto:${site.email}`}
-                    className="link-wipe mt-4 flex min-h-11 w-fit items-center font-display text-[clamp(1.4rem,3vw,1.9rem)] font-bold tracking-[-0.04em] text-ink"
+                    className="link-wipe mt-4 flex min-h-11 items-center font-display text-[clamp(1.4rem,3vw,1.9rem)] font-bold tracking-[-0.04em] text-ink"
                   >
-                    {site.email}
+                    {/* break-words (overflow-wrap) only changes how text renders
+                        within a box of a given width -- it doesn't shrink the
+                        box's own min-content contribution to the layout, so an
+                        unbroken email can still force an ancestor wider than the
+                        viewport even while wrapping correctly inside itself.
+                        break-all (word-break) actually reduces min-content, so
+                        the ancestor never inflates in the first place. */}
+                    <span className="min-w-0 break-all">{site.email}</span>
                   </a>
                   <a
                     href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}
@@ -67,9 +74,9 @@ export default function ContactPage() {
                   </h2>
                   <ol className="mt-6 space-y-5">
                     {[
-                      "A real reply within one business day, with our first read on your problem.",
-                      "A 30-minute call if it looks like a fit — we will say so plainly if it doesn't.",
-                      "A written scope with a fixed date and a fixed number before you commit anything.",
+                      "A real reply within one business day, with our first read on your project.",
+                      "A quick call if it looks like a fit — we'll say so plainly if it doesn't.",
+                      "A clear plan and timeline before you commit to anything.",
                     ].map((line, i) => (
                       <li key={line} className="flex gap-4">
                         <span className="tabular mt-0.5 font-display text-xs font-bold text-spark-lift">

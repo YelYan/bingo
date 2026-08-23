@@ -1,24 +1,18 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand } from "@/components/cta-band";
 import { PageHeader } from "@/components/page-header";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { Spark } from "@/components/logo";
-import {
-  ButtonLink,
-  Container,
-  Eyebrow,
-  SectionHeading,
-  Tag,
-} from "@/components/ui";
+import { ButtonLink, Container, SectionHeading } from "@/components/ui";
 import { projects } from "@/lib/projects";
 import { process, services } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Web Design, Branding & SEO Services",
+  title: "Web Design, Local SEO & AI Services",
   description:
-    "Hand-coded websites, brand systems with real rules, and technical-first SEO — the three things Bingo does, and exactly what you get.",
+    "Web design, local SEO, AI social scheduling, website care, and AI solutions — the five things Bingo does, and exactly what you get with each.",
   alternates: { canonical: "/services" },
 };
 
@@ -29,11 +23,11 @@ export default function ServicesPage() {
         eyebrow="Services"
         title={
           <>
-            Coding, branding,
-            <br /> and being found.
+            Five services.
+            <br /> One team that gets it done.
           </>
         }
-        lead="Three disciplines, one team, no handoffs to an agency you never meet. Below is the honest version: what is included, what it runs on, and how long it takes."
+        lead="No handoffs to an agency you never meet, no five different freelancers who don't talk to each other. Below is the honest version: what's included, and what you actually walk away with."
         aside={
           <ul className="space-y-2 border-t border-line pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
             {services.map((s) => (
@@ -69,43 +63,28 @@ export default function ServicesPage() {
                   <h2 className="mt-4 text-[clamp(2.1rem,5vw,3.4rem)] text-ink">
                     {service.title}
                   </h2>
-                  <p className="mt-6 font-serif text-xl leading-snug text-spark-deep">
-                    {service.promise}
-                  </p>
                   <p className="mt-6 text-[1.0625rem] leading-relaxed text-ink-soft">
-                    {service.body}
+                    {service.description}
                   </p>
 
-                  <dl className="mt-9 flex flex-wrap gap-x-12 gap-y-5 border-t border-line pt-6">
-                    <div>
-                      <dt className="text-[0.6875rem] font-semibold tracking-[0.2em] text-sand-ink uppercase">
-                        Typical timeline
-                      </dt>
-                      <dd className="mt-1.5 font-display text-lg font-bold text-ink">
-                        {service.timeline}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-[0.6875rem] font-semibold tracking-[0.2em] text-sand-ink uppercase">
-                        Built with
-                      </dt>
-                      <dd className="mt-2 flex flex-wrap gap-2">
-                        {service.tools.map((t) => (
-                          <Tag key={t}>{t}</Tag>
-                        ))}
-                      </dd>
-                    </div>
-                  </dl>
+                  <div className="mt-9 border-t border-line pt-6">
+                    <dt className="text-[0.6875rem] font-semibold tracking-[0.2em] text-sand-ink uppercase">
+                      The outcome
+                    </dt>
+                    <dd className="mt-2 font-serif text-lg leading-snug text-spark-deep">
+                      {service.outcome}
+                    </dd>
+                  </div>
                 </Reveal>
               </div>
 
               <div className="lg:col-span-7">
                 <Reveal delay={90}>
                   <h3 className="text-[0.6875rem] font-semibold tracking-[0.22em] text-sand-ink uppercase">
-                    What you get
+                    What's included
                   </h3>
                   <ul className="mt-6">
-                    {service.deliverables.map((d) => (
+                    {service.included.map((d) => (
                       <li
                         key={d}
                         className="flex items-start gap-4 border-t border-line py-4 last:border-b"
@@ -116,12 +95,9 @@ export default function ServicesPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-9 flex flex-wrap gap-3">
+                  <div className="mt-9">
                     <ButtonLink href="/contact" tone="ink">
-                      Talk about {service.short.toLowerCase()}
-                    </ButtonLink>
-                    <ButtonLink href="/pricing" tone="ghost">
-                      See pricing
+                      {service.cta}
                     </ButtonLink>
                   </div>
                 </Reveal>
@@ -136,7 +112,7 @@ export default function ServicesPage() {
         <Container>
           <SectionHeading
             eyebrow="How it runs"
-            title="The same four steps, whichever service you buy."
+            title="The same four steps, whichever service you need."
             align="center"
           />
           <ol className="mt-16 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
@@ -150,12 +126,7 @@ export default function ServicesPage() {
                 <span className="tabular font-display text-sm font-bold text-sand-ink">
                   {step.step}
                 </span>
-                <h3 className="mt-3 flex items-center gap-2.5 text-2xl text-ink">
-                  {step.title}
-                  {step.title === "Bingo" ? (
-                    <Spark className="h-3.5 w-2" />
-                  ) : null}
-                </h3>
+                <h3 className="mt-3 text-2xl text-ink">{step.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                   {step.detail}
                 </p>
@@ -192,9 +163,9 @@ export default function ServicesPage() {
 
       <CtaBand
         eyebrow="Not sure which"
-        title="Most people need two of the three."
-        lead="Tell us the symptom — no leads, wrong leads, a site nobody can update, a brand that stopped fitting — and we will tell you which service actually fixes it. Even if it is the cheap one."
-        secondary={{ href: "/pricing", label: "Compare plans" }}
+        title="Most people need two or three of these."
+        lead="Tell us the symptom — no leads, wrong leads, a site nobody can update, socials that went quiet — and we'll tell you which service actually fixes it."
+        secondary={{ href: "/tools", label: "Try a free tool first" }}
       />
     </>
   );

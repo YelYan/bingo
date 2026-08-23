@@ -6,6 +6,7 @@ build
 # Cloudflare / OpenNext
 .open-next
 .wrangler
+.dev.vars
 cloudflare-env.d.ts
 .DS_Store
 *.pem

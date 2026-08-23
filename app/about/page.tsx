@@ -175,12 +175,7 @@ export default function AboutPage() {
                 <span className="tabular font-display text-sm font-bold text-sand-ink">
                   {step.step}
                 </span>
-                <h3 className="mt-3 flex items-center gap-2.5 text-2xl text-ink">
-                  {step.title}
-                  {step.title === "Bingo" ? (
-                    <Spark className="h-3.5 w-2" />
-                  ) : null}
-                </h3>
+                <h3 className="mt-3 text-2xl text-ink">{step.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                   {step.detail}
                 </p>
@@ -228,7 +223,7 @@ export default function AboutPage() {
         eyebrow="Working together"
         title="We take on eight projects a year."
         lead="That is the honest capacity of four people who refuse to subcontract the interesting parts. If the timing works, we would like to hear what you are building."
-        secondary={{ href: "/pricing", label: "See the plans" }}
+        secondary={{ href: "/services", label: "See our services" }}
       />
     </>
   );

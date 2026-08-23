@@ -9,7 +9,13 @@ export type ContactState = {
   status: "idle" | "success" | "error";
   message?: string;
   errors?: Partial<Record<"name" | "email" | "brief", string>>;
-  values?: { name: string; email: string; company: string; brief: string };
+  values?: {
+    name: string;
+    email: string;
+    company: string;
+    siteUrl: string;
+    brief: string;
+  };
 };
 
 export const initialContactState: ContactState = { status: "idle" };

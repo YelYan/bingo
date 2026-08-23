@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { CtaBand } from "@/components/cta-band";
 import { HeroGrid } from "@/components/hero-grid";
 import { Marquee } from "@/components/marquee";
@@ -12,11 +12,9 @@ import {
   Container,
   Eyebrow,
   SectionHeading,
-  Tag,
 } from "@/components/ui";
 import { projects } from "@/lib/projects";
 import { process, services } from "@/lib/services";
-import { plans } from "@/lib/pricing";
 import { site, stats } from "@/lib/site";
 
 export default function HomePage() {
@@ -27,9 +25,9 @@ export default function HomePage() {
       <Hero />
       <TickerStrip />
       <ServicesSection />
+      <WhyUsSection />
       <WorkSection featured={featured} />
       <ProcessSection />
-      <PricingTeaser />
       <CtaBand />
     </>
   );
@@ -56,31 +54,29 @@ function Hero() {
 
             <Reveal delay={80}>
               <h1 className="mt-7 text-[clamp(2.9rem,8.4vw,6.4rem)] leading-[0.9] text-ink">
-                Websites that
+                Built to look good.
                 <br />
-                end in an{" "}
-                <em className="aha font-serif font-normal text-spark not-italic">
-                  aha
-                </em>
-                <span className="text-spark">.</span>
+                Built to get found.
+                <br />
+                Built to <span className="text-spark">grow</span>.
               </h1>
             </Reveal>
 
             <Reveal delay={160}>
               <p className="mt-8 max-w-xl text-[1.0625rem] leading-relaxed text-ink-soft sm:text-lg">
-                Bingo is a web design studio. We write the code, shape the
-                brand and win the search — so the second someone lands on your
-                site, they finally get what you do.
+                From websites to local SEO to AI-powered social media, we
+                build the digital stuff that actually moves your business
+                forward.
               </p>
             </Reveal>
 
             <Reveal delay={220}>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <ButtonLink href="/work" tone="ink">
-                  See the work
+                <ButtonLink href="/contact" tone="ink">
+                  Let&apos;s Build Something
                 </ButtonLink>
-                <ButtonLink href="/pricing" tone="ghost">
-                  Plans from ${plans[0].monthly}/mo
+                <ButtonLink href="/tools" tone="ghost">
+                  Check My Website
                 </ButtonLink>
               </div>
             </Reveal>
@@ -113,9 +109,9 @@ function Hero() {
                 bodyClassName="bg-white/60 p-6 sm:p-8"
               >
                 <p className="font-display text-[clamp(1.6rem,3.2vw,2.3rem)] leading-[1] font-extrabold tracking-[-0.05em] text-ink">
-                  One studio.
+                  One team.
                   <br />
-                  Three ways in.
+                  Every service.
                 </p>
 
                 <ul className="mt-7 space-y-2.5">
@@ -184,12 +180,12 @@ function TickerStrip() {
     <div className="border-y border-line bg-paper-2">
       <Marquee
         items={[
-          "Websites, hand-coded",
-          "Branding with a spine",
-          "SEO that survives updates",
-          "Design systems",
-          "Core Web Vitals",
-          "Accessibility as standard",
+          "Web Design & Development",
+          "Local SEO",
+          "AI Social Scheduling",
+          "Website Care & Support",
+          "AI Solutions",
+          "No Guesswork",
         ]}
       />
     </div>
@@ -208,49 +204,36 @@ function ServicesSection() {
           eyebrow="What we do"
           title={
             <>
-              Three services. They only
-              <br className="hidden sm:block" /> really work together.
+              Everything your business
+              <br className="hidden sm:block" /> needs online.
             </>
           }
-          lead="Most studios sell one and outsource the rest. We keep all three in the building, because a beautiful site with no traffic and a strong brand with a slow site are the same failure wearing different clothes."
+          lead="Most agencies sell one thing and outsource the rest. We keep design, SEO, social, care, and AI in the same building, because a great website with no visibility and a visible site nobody maintains are the same problem wearing different clothes."
         />
 
         <div className="mt-16 border-t border-line">
           {services.map((service, i) => (
-            <Reveal key={service.slug} delay={i * 80}>
+            <Reveal key={service.slug} delay={i * 70}>
               <Link
                 href={`/services#${service.slug}`}
                 className="group grid gap-6 border-b border-line py-10 transition-colors duration-300 hover:bg-paper-2/60 sm:py-12 lg:grid-cols-12 lg:gap-8"
               >
-                <div className="flex items-start gap-5 lg:col-span-5">
+                <div className="flex items-start gap-5 lg:col-span-4">
                   <span className="tabular mt-2 font-display text-sm font-bold text-sand-ink">
                     {service.index}
                   </span>
-                  <h3 className="text-[clamp(1.75rem,3.6vw,2.75rem)] text-ink transition-colors duration-300 group-hover:text-spark-deep">
+                  <h3 className="text-[clamp(1.6rem,3.2vw,2.4rem)] text-ink transition-colors duration-300 group-hover:text-spark-deep">
                     {service.title}
                   </h3>
                 </div>
 
-                <div className="lg:col-span-5">
-                  <p className="font-serif text-xl leading-snug text-ink">
-                    {service.promise}
+                <div className="lg:col-span-6">
+                  <p className="max-w-lg text-[0.9375rem] leading-relaxed text-ink-soft">
+                    {service.description}
                   </p>
-                  <p className="mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-ink-soft">
-                    {service.body}
-                  </p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {service.tools.map((t) => (
-                      <li key={t}>
-                        <Tag>{t}</Tag>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
-                <div className="flex items-start justify-between gap-4 lg:col-span-2 lg:justify-end">
-                  <span className="text-xs font-semibold tracking-[0.16em] text-sand-ink uppercase lg:hidden">
-                    {service.timeline}
-                  </span>
+                <div className="flex items-center justify-end lg:col-span-2">
                   <span
                     aria-hidden="true"
                     className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 group-hover:border-spark group-hover:bg-spark group-hover:text-ink-2"
@@ -268,12 +251,69 @@ function ServicesSection() {
 }
 
 /* ================================================================== */
+/* Why us                                                              */
+/* ================================================================== */
+
+const whyUs = [
+  {
+    title: "Everything under one roof",
+    detail:
+      "Website, SEO, social, support. No juggling five different freelancers who don't talk to each other.",
+  },
+  {
+    title: "Built on your content, not templates",
+    detail:
+      "Your site, your voice. We use what makes your business unique instead of copy-pasting a theme.",
+  },
+  {
+    title: "We stick around after launch",
+    detail:
+      "Websites break, algorithms change, businesses grow. We're here for all of it, not just the handoff.",
+  },
+  {
+    title: "Real strategy, not guesswork",
+    detail:
+      "Every decision, from design to SEO to social, is based on what actually works for your business, not trends.",
+  },
+];
+
+function WhyUsSection() {
+  return (
+    <section className="bg-paper-2 py-24 sm:py-32">
+      <Container>
+        <SectionHeading
+          eyebrow="Why us"
+          title="Why Businesses Choose Us"
+          lead="We're not just another agency. We're the team that actually gets it done, and keeps it running."
+        />
+
+        <div className="mt-16 grid gap-10 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-12">
+          {whyUs.map((reason, i) => (
+            <Reveal
+              key={reason.title}
+              delay={i * 70}
+              className="border-t border-line pt-7"
+            >
+              <Spark className="h-2.5 w-[0.4rem]" />
+              <h3 className="mt-4 text-xl text-ink">{reason.title}</h3>
+              <p className="mt-3 max-w-sm text-[0.9375rem] leading-relaxed text-ink-soft">
+                {reason.detail}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ================================================================== */
 /* Work                                                                */
 /* ================================================================== */
 
 function WorkSection({ featured }: { featured: typeof projects }) {
   return (
-    <section className="bg-paper-2 py-24 sm:py-32">
+    <section className="py-24 sm:py-32">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHeading
@@ -312,24 +352,19 @@ function WorkSection({ featured }: { featured: typeof projects }) {
 
 function ProcessSection() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="bg-paper-2 py-24 sm:py-32">
       <Container>
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-32">
               <SectionHeading
-                eyebrow="The method"
-                title={
-                  <>
-                    Four steps. The
-                    <br className="hidden sm:block" /> third one is the point.
-                  </>
-                }
-                lead="Every studio has a process diagram. Ours is short because most of the value sits in one place: getting to the idea that reframes the whole site, before a single pixel is committed to."
+                eyebrow="How we work"
+                title="How We Work"
+                lead="No mystery process diagram. Just four steps that take you from 'I should really sort my website out' to actually done."
               />
               <div className="mt-9">
                 <ButtonLink href="/about" tone="ghost">
-                  How we work
+                  Meet the studio
                 </ButtonLink>
               </div>
             </div>
@@ -347,12 +382,7 @@ function ProcessSection() {
                   {step.step}
                 </span>
                 <div>
-                  <h3 className="flex items-center gap-3 text-2xl text-ink sm:text-3xl">
-                    {step.title}
-                    {step.title === "Bingo" ? (
-                      <Spark className="h-4 w-2.5" />
-                    ) : null}
-                  </h3>
+                  <h3 className="text-2xl text-ink sm:text-3xl">{step.title}</h3>
                   <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ink-soft">
                     {step.detail}
                   </p>
@@ -366,90 +396,3 @@ function ProcessSection() {
   );
 }
 
-/* ================================================================== */
-/* Pricing teaser                                                      */
-/* ================================================================== */
-
-function PricingTeaser() {
-  return (
-    <section className="py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          eyebrow="Pricing"
-          title="One monthly number. No surprise invoices."
-          lead="Design, build, hosting, updates and search work in a single line item you can forecast. Cancel any month — we would rather earn it than lock it."
-          align="center"
-        />
-
-        <div className="mt-16 grid gap-5 lg:grid-cols-3">
-          {plans.map((plan, i) => (
-            <Reveal key={plan.slug} delay={i * 80}>
-              <div
-                className={`flex h-full flex-col rounded-2xl border p-7 ${
-                  plan.featured
-                    ? "border-spark bg-ink text-paper"
-                    : "border-line bg-paper-2"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <h3
-                    className={`text-2xl ${plan.featured ? "text-paper" : "text-ink"}`}
-                  >
-                    {plan.name}
-                  </h3>
-                  {plan.featured ? <Tag tone="spark">Most chosen</Tag> : null}
-                </div>
-
-                <p
-                  className={`mt-3 text-sm leading-relaxed ${
-                    plan.featured ? "text-sand-soft" : "text-ink-soft"
-                  }`}
-                >
-                  {plan.fit}
-                </p>
-
-                <p className="mt-7 flex items-baseline gap-1.5">
-                  <span
-                    className={`tabular font-display text-4xl font-extrabold tracking-[-0.05em] ${
-                      plan.featured ? "text-paper" : "text-ink"
-                    }`}
-                  >
-                    ${plan.monthly}
-                  </span>
-                  <span
-                    className={`text-sm ${plan.featured ? "text-sand" : "text-ink-soft"}`}
-                  >
-                    /month
-                  </span>
-                </p>
-
-                <ul className="mt-6 flex-1 space-y-2.5">
-                  {plan.features.slice(0, 4).map((f) => (
-                    <li key={f} className="flex gap-3">
-                      <Spark className="mt-2 h-2 w-[0.35rem] shrink-0" />
-                      <span
-                        className={`text-sm leading-snug ${
-                          plan.featured ? "text-sand-soft" : "text-ink-soft"
-                        }`}
-                      >
-                        {f}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <ButtonLink
-                  href="/pricing"
-                  tone={plan.featured ? "spark" : "ghost"}
-                  className="mt-8 w-full"
-                >
-                  What&apos;s included
-                </ButtonLink>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}

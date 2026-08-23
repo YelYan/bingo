@@ -41,10 +41,10 @@ export const metadata: Metadata = {
   keywords: [
     "web design studio",
     "website design",
-    "custom website development",
-    "branding studio",
-    "SEO agency",
-    "Next.js development",
+    "local SEO",
+    "AI social media scheduling",
+    "website care and support",
+    "AI solutions for business",
   ],
   authors: [{ name: site.legalName }],
   creator: site.legalName,
@@ -97,7 +97,14 @@ const jsonLd = {
   foundingDate: String(site.founded),
   priceRange: "$$",
   areaServed: "Worldwide",
-  knowsAbout: ["Web design", "Web development", "Branding", "SEO"],
+  knowsAbout: [
+    "Web design",
+    "Web development",
+    "Local SEO",
+    "AI social media scheduling",
+    "Website care and support",
+    "AI solutions",
+  ],
   sameAs: site.socials.map((s) => s.href),
 };
 

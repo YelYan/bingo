@@ -1,100 +1,134 @@
 export type Service = {
-  slug: "websites" | "branding" | "seo";
+  slug:
+    | "web-design"
+    | "local-seo"
+    | "social-scheduling"
+    | "website-care"
+    | "ai-solutions";
   index: string;
   title: string;
   /** One or two words, for nav and tight spaces. */
   short: string;
-  /** One line. Said out loud, it should sound like a person. */
-  promise: string;
-  body: string;
-  deliverables: string[];
-  tools: string[];
-  timeline: string;
+  description: string;
+  included: string[];
+  outcome: string;
+  /** Button label for this service's CTA. */
+  cta: string;
 };
 
 export const services: Service[] = [
   {
-    slug: "websites",
+    slug: "web-design",
     index: "01",
-    title: "Websites, actually coded",
-    short: "Websites",
-    promise: "No page builders. No 4MB of plugin soup. Hand-built and fast.",
-    body:
-      "We design in the browser and write the code ourselves, which means the thing you approve is the thing that ships — pixel for pixel, at 60fps, on a three-year-old Android. Every build is component-driven, typed end to end, and handed over with documentation you can actually give to a developer later.",
-    deliverables: [
-      "Design system + component library",
-      "Next.js / React front end, typed",
-      "Headless CMS so your team can edit copy",
-      "Accessibility to WCAG 2.2 AA",
-      "Core Web Vitals in the green",
-      "Analytics, forms and CRM wiring",
+    title: "Websites That Actually Do Their Job",
+    short: "Web Design",
+    description:
+      "Your website should be more than a digital business card. We design and build fast, clean, mobile-friendly websites that reflect your brand and actually convert visitors into customers — no bloated templates, no confusing navigation, no guesswork.",
+    included: [
+      "Custom design built around your brand",
+      "Mobile-first, fast-loading pages",
+      "Clear navigation & conversion-focused layout",
+      "SEO-ready structure from day one",
+      "Ongoing edits during the build",
     ],
-    tools: ["Next.js", "TypeScript", "Tailwind", "Sanity", "Vercel"],
-    timeline: "4–8 weeks",
+    outcome:
+      "A website that looks professional, loads fast, and actually gets people to take action.",
+    cta: "Start Your Website",
   },
   {
-    slug: "branding",
+    slug: "local-seo",
     index: "02",
-    title: "Branding with a spine",
-    short: "Branding",
-    promise: "A mark, a voice, and the rules that keep both from drifting.",
-    body:
-      "Identity work only pays off if the fiftieth person to touch it can stay on brand without asking you. So we go past the logo: type scale, colour with contrast ratios already checked, photography direction, tone of voice with real before-and-afters, and a living guideline site your team can bookmark.",
-    deliverables: [
-      "Positioning + messaging platform",
-      "Logo system and responsive marks",
-      "Colour, type and layout rules",
-      "Voice guide with worked examples",
-      "Social, deck and print templates",
-      "Hosted brand guidelines site",
+    title: "Get Found By People Actually Looking For You",
+    short: "Local SEO",
+    description:
+      "Ranking on Google isn't magic, it's strategy. We optimize your website, listings, and content so local customers can find you when they search, instead of scrolling past you to your competitor.",
+    included: [
+      "Google Business Profile optimization",
+      "On-page SEO (titles, descriptions, structure)",
+      "Local keyword targeting",
+      "Citation & listing cleanup",
+      "Monthly visibility tracking",
     ],
-    tools: ["Figma", "Illustrator", "Fontsmith", "Notion"],
-    timeline: "3–6 weeks",
+    outcome: "More local visibility, more clicks, more people finding you first.",
+    cta: "Boost My Visibility",
   },
   {
-    slug: "seo",
+    slug: "social-scheduling",
     index: "03",
-    title: "SEO that survives updates",
-    short: "SEO",
-    promise: "Technical foundations first, content that earns the click second.",
-    body:
-      "We start with the boring, decisive part — crawlability, schema, internal linking, page speed, index hygiene — because no amount of blog posts rescues a site Google struggles to read. Then we build a topic map around the questions your buyers actually type, and report on revenue, not vanity impressions.",
-    deliverables: [
-      "Technical audit + fix implementation",
-      "Keyword and intent mapping",
-      "Structured data / schema markup",
-      "Content briefs and editorial calendar",
-      "Local SEO + Google Business Profile",
-      "Monthly reporting you can read in 5 minutes",
+    title: "Social Content, Powered By Your Own Website",
+    short: "AI Social",
+    description:
+      "We use AI to turn your website content into ready-to-post social content, scheduled and published automatically, so your socials stay active without eating up your week.",
+    included: [
+      "AI-generated posts based on your website content",
+      "Custom posting schedule",
+      "Multi-platform support",
+      "Brand-consistent captions & tone",
+      "Monthly content calendar",
     ],
-    tools: ["Ahrefs", "GSC", "Screaming Frog", "GA4", "Looker"],
-    timeline: "Ongoing, 90-day cycles",
+    outcome:
+      "Consistent, on-brand social presence, without you writing a single caption.",
+    cta: "Automate My Socials",
+  },
+  {
+    slug: "website-care",
+    index: "04",
+    title: "Your Website, Actually Taken Care Of",
+    short: "Site Care",
+    description:
+      "Websites need upkeep — updates, backups, security checks, small fixes. We handle the behind-the-scenes stuff so your site stays fast, secure, and current while you focus on your business.",
+    included: [
+      "Regular updates & backups",
+      "Uptime & security monitoring",
+      "Small content edits & fixes",
+      "Performance checkups",
+      "Direct support when something's off",
+    ],
+    outcome: "A website that just works, quietly and reliably, in the background.",
+    cta: "Get Ongoing Support",
+  },
+  {
+    slug: "ai-solutions",
+    index: "05",
+    title: "Smart Tools, Built Around Your Business",
+    short: "AI Solutions",
+    description:
+      "From chatbots to automated workflows, we build simple AI solutions that save you time and handle the repetitive stuff, so you can focus on what actually needs a human.",
+    included: [
+      "Custom AI chatbots",
+      "Workflow & task automation",
+      "AI-powered customer support tools",
+      "Integration with your existing site/tools",
+      "Ongoing tuning as your needs change",
+    ],
+    outcome: "Less manual work, faster response times, more time back in your day.",
+    cta: "Explore AI Solutions",
   },
 ];
 
 export const process = [
   {
     step: "01",
-    title: "Dig",
+    title: "Discover",
     detail:
-      "A week of interviews, analytics archaeology and competitor teardowns. We come back with the uncomfortable finding, not the flattering one.",
+      "We learn your business, your goals, and what your customers actually need to see.",
   },
   {
     step: "02",
-    title: "Angle",
+    title: "Design & Build",
     detail:
-      "We write the sentence your site has to make land. Everything after this — layout, colour, copy, code — is in service of that one sentence.",
+      "We design and build your website (and everything around it) to look sharp and perform even sharper.",
   },
   {
     step: "03",
-    title: "Bingo",
+    title: "Launch & Optimize",
     detail:
-      "Design in the browser, reviewed on real devices. You see three routes, we kill two. The survivor gets built properly.",
+      "We go live, then fine-tune for SEO, speed, and visibility so people can actually find you.",
   },
   {
     step: "04",
-    title: "Ship & sharpen",
+    title: "Support & Grow",
     detail:
-      "Launch, then measure. Ninety-day cycles of SEO, content and conversion work — because a site is a product, not a poster.",
+      "We stick around to maintain, update, and grow your online presence as your business grows.",
   },
 ] as const;

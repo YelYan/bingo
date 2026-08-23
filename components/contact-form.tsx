@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState, useId } from "react";
 import { useFormStatus } from "react-dom";
@@ -7,15 +7,13 @@ import { initialContactState } from "@/lib/contact-state";
 import { Spark } from "./logo";
 import { Arrow } from "./ui";
 
-const budgets = [
-  "Not sure yet",
-  "Spark — $279/mo",
-  "Signal — $549/mo",
-  "Studio — $949+/mo",
-  "One-off project",
+const interests = [
+  "Web Design",
+  "Local SEO",
+  "AI Social Scheduling",
+  "Website Care",
+  "AI Solutions",
 ];
-
-const interests = ["Website", "Branding", "SEO"];
 
 export function ContactForm() {
   const [state, formAction] = useActionState(submitContact, initialContactState);
@@ -28,7 +26,7 @@ export function ContactForm() {
         className="rounded-2xl border border-spark/40 bg-spark-wash p-8 sm:p-10"
       >
         <Spark className="h-3.5 w-2" />
-        <h2 className="mt-5 text-3xl text-ink">Bingo.</h2>
+        <h2 className="mt-5 text-3xl text-ink">You&apos;re in!</h2>
         <p className="mt-4 max-w-md text-[1.0625rem] leading-relaxed text-ink-soft">
           {state.message}
         </p>
@@ -51,7 +49,7 @@ export function ContactForm() {
         <Field
           id={`${ids}-name`}
           name="name"
-          label="Your name"
+          label="Full Name"
           autoComplete="name"
           defaultValue={state.values?.name}
           error={state.errors?.name}
@@ -61,7 +59,7 @@ export function ContactForm() {
           id={`${ids}-email`}
           name="email"
           type="email"
-          label="Email"
+          label="Email Address"
           autoComplete="email"
           defaultValue={state.values?.email}
           error={state.errors?.email}
@@ -69,18 +67,27 @@ export function ContactForm() {
         />
       </div>
 
-      <Field
-        id={`${ids}-company`}
-        name="company"
-        label="Company or project"
-        autoComplete="organization"
-        defaultValue={state.values?.company}
-        hint="Optional — a link works fine too."
-      />
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field
+          id={`${ids}-company`}
+          name="company"
+          label="Business Name"
+          autoComplete="organization"
+          defaultValue={state.values?.company}
+        />
+        <Field
+          id={`${ids}-siteurl`}
+          name="site_url"
+          label="Website URL"
+          autoComplete="url"
+          defaultValue={state.values?.siteUrl}
+          hint="If you have one — no worries if not."
+        />
+      </div>
 
       <fieldset>
         <legend className="text-sm font-semibold text-ink">
-          What do you need?
+          What Do You Need Help With?
         </legend>
         <p className="mt-1 text-sm text-ink-soft">Pick as many as apply.</p>
         <div className="mt-4 flex flex-wrap gap-2.5">
@@ -101,29 +108,10 @@ export function ContactForm() {
         </div>
       </fieldset>
 
-      <div>
-        <label
-          htmlFor={`${ids}-budget`}
-          className="block text-sm font-semibold text-ink"
-        >
-          Rough budget
-        </label>
-        <select
-          id={`${ids}-budget`}
-          name="budget"
-          defaultValue={budgets[0]}
-          className="mt-2.5 min-h-12 w-full cursor-pointer rounded-xl border border-line bg-paper px-4 text-[1.0625rem] text-ink transition-colors hover:border-ink focus:border-ink"
-        >
-          {budgets.map((b) => (
-            <option key={b}>{b}</option>
-          ))}
-        </select>
-      </div>
-
       <Field
         id={`${ids}-brief`}
         name="brief"
-        label="What isn't working?"
+        label="Tell Us About Your Project"
         textarea
         defaultValue={state.values?.brief}
         error={state.errors?.brief}
@@ -131,11 +119,14 @@ export function ContactForm() {
         required
       />
 
-      {/* honeypot — hidden from people, irresistible to bots */}
+      {/* honeypot — hidden from people, irresistible to bots. Named
+          differently from the real "site_url" field above on purpose:
+          reusing "website" here would silently swallow every real
+          submission where someone actually filled in their site. */}
       <div aria-hidden="true" className="absolute -left-[9999px]">
-        <label htmlFor={`${ids}-website`}>Website</label>
+        <label htmlFor={`${ids}-hp`}>Leave this blank</label>
         <input
-          id={`${ids}-website`}
+          id={`${ids}-hp`}
           type="text"
           name="website"
           tabIndex={-1}
@@ -162,7 +153,7 @@ function SubmitButton() {
       disabled={pending}
       className="group inline-flex min-h-13 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-spark px-8 font-semibold text-ink-2 transition-colors duration-200 hover:bg-spark-lift disabled:cursor-wait disabled:opacity-70"
     >
-      {pending ? "Sending…" : "Send it"}
+      {pending ? "Sending…" : "Let's Talk"}
       {pending ? (
         <span
           aria-hidden="true"

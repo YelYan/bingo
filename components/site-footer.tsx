@@ -23,9 +23,9 @@ export function SiteFooter() {
             </p>
             <a
               href={`mailto:${site.email}`}
-              className="link-wipe mt-6 inline-flex min-h-11 items-center font-display text-2xl font-bold tracking-[-0.04em] text-paper"
+              className="link-wipe mt-6 flex min-h-11 max-w-full items-center font-display text-2xl font-bold tracking-[-0.04em] text-paper"
             >
-              {site.email}
+              <span className="min-w-0 break-all">{site.email}</span>
             </a>
             <a
               href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}
@@ -50,7 +50,7 @@ export function SiteFooter() {
                 {s.short}
               </FooterLink>
             ))}
-            <FooterLink href="/pricing">Plans &amp; pricing</FooterLink>
+            <FooterLink href="/tools">Free tools</FooterLink>
           </FooterColumn>
 
           <FooterColumn title="Elsewhere">
