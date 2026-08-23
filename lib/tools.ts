@@ -25,6 +25,7 @@ export const tools: Tool[] = [
       "Use it to brief your developer, designer, or AI tool of choice",
     ],
     cta: "Try PromptNest Free",
+    href: "/tools/promptnest",
   },
   {
     slug: "sitecheckr",

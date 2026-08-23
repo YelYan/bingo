@@ -1,8 +1,10 @@
 "use server";
 
 import type { ContactState } from "./contact-state";
+import type { PromptNestState } from "./promptnest-state";
 import type { RankViewState } from "./rankview-state";
 import type { SiteCheckrState } from "./sitecheckr-state";
+import { generateWebsitePrompt } from "./prompt-template";
 import { auditHtml } from "./site-audit";
 import {
   CLAUDE_MODEL_SEARCH,
@@ -223,4 +225,46 @@ export async function submitSiteCheckr(
       values: { url: rawUrl },
     };
   }
+}
+
+export async function submitPromptNest(
+  _prev: PromptNestState,
+  formData: FormData,
+): Promise<PromptNestState> {
+  const values = {
+    businessName: String(formData.get("business_name") ?? "").trim(),
+    services: String(formData.get("services") ?? "").trim(),
+    description: String(formData.get("description") ?? "").trim(),
+    location: String(formData.get("location") ?? "").trim(),
+    websiteUrl: String(formData.get("website_url") ?? "").trim(),
+    colors: String(formData.get("colors") ?? "").trim(),
+    phone: String(formData.get("phone") ?? "").trim(),
+    email: String(formData.get("email") ?? "").trim(),
+  };
+
+  // Honeypot — same pattern as the other tools.
+  if (String(formData.get("company_site") ?? "")) {
+    return { status: "success", values, message: "Thanks!" };
+  }
+
+  const errors: PromptNestState["errors"] = {};
+  if (values.businessName.length < 2)
+    errors.businessName = "Tell us the business name.";
+  if (values.services.length < 3)
+    errors.services = "What do you actually offer? A few words is plenty.";
+  if (values.description.length < 10)
+    errors.description = "A sentence or two helps the prompt actually sound like you.";
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      status: "error",
+      message: "A couple of fields need another look.",
+      errors,
+      values,
+    };
+  }
+
+  const prompt = generateWebsitePrompt(values);
+
+  return { status: "success", values, prompt };
 }
