@@ -6,6 +6,8 @@ export type Tool = {
   whoFor: string;
   steps: [string, string, string];
   cta: string;
+  /** Dedicated tool page, once it exists. Falls back to /contact until then. */
+  href?: string;
 };
 
 export const tools: Tool[] = [
@@ -52,5 +54,6 @@ export const tools: Tool[] = [
       "Get your visibility report instantly",
     ],
     cta: "Check My Visibility",
+    href: "/tools/rankview",
   },
 ];

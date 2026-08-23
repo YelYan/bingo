@@ -70,7 +70,11 @@ export default function ToolsPage() {
                     </ol>
                   </div>
 
-                  <ButtonLink href="/contact" tone="ink" className="mt-8 w-full">
+                  <ButtonLink
+                    href={tool.href ?? "/contact"}
+                    tone="ink"
+                    className="mt-8 w-full"
+                  >
                     {tool.cta}
                   </ButtonLink>
                 </div>
