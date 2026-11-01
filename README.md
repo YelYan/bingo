@@ -3,11 +3,11 @@
 Portfolio site for Bingo. Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4. No UI kit, no page builder, no runtime animation library.
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm --filter bingo-site dev
 ```
 
-Then open <http://localhost:3000>. `npm run build` needs network access the first time so `next/font` can fetch and self-host the three typefaces.
+Then open <http://localhost:3000>. `pnpm --filter bingo-site build` needs network access the first time so `next/font` can fetch and self-host the three typefaces.
 
 ---
 
@@ -96,7 +96,7 @@ Built in rather than bolted on, since both are things Bingo sells:
 Configured for Cloudflare via the [OpenNext adapter](https://opennext.js.org/cloudflare), which runs the real Next.js server on Workers. A static export is *not* an option while the contact form uses a server action.
 
 ```bash
-npm run deploy
+pnpm --filter bingo-site deploy
 ```
 
 That builds with `opennextjs-cloudflare` and deploys via Wrangler. First time on a new machine you need to authenticate once:
@@ -108,7 +108,7 @@ npx wrangler login
 To check the Workers runtime locally before shipping — `workerd`, not Node, so it catches things `next start` won't:
 
 ```bash
-npm run preview
+pnpm --filter bingo-site preview
 ```
 
 Config lives in [`wrangler.jsonc`](wrangler.jsonc) (worker name `bingo`, `nodejs_compat`, assets from `.open-next/assets`) and [`open-next.config.ts`](open-next.config.ts). Defaults are correct here: everything is prerendered, so there is no incremental cache to wire up. Add R2/KV caching there if ISR is introduced later.
@@ -121,7 +121,7 @@ Connect this repo in **Workers & Pages → Create → Workers → Import a repos
 | --- | --- |
 | Build command | `npx opennextjs-cloudflare build` |
 | Deploy command | `npx wrangler deploy` (the default) |
-| Root directory | leave empty |
+| Root directory | `apps/bingo-site` |
 
 Every push to `main` then builds and ships automatically; pushes to other branches upload a preview version instead (`npx wrangler versions upload`).
 
