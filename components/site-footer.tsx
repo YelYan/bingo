@@ -8,14 +8,14 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-ink-2 text-paper">
+    <footer className="relative flex min-h-svh flex-col overflow-hidden bg-ink-2 text-paper">
       <div
         aria-hidden="true"
         className="blueprint-dark absolute inset-0 opacity-70"
       />
 
-      <Container className="relative pt-20 pb-10 sm:pt-28">
-        <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+      <Container className="relative flex flex-1 flex-col pt-24 pb-6 sm:pt-28">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
           <div>
             <LogoMark tone="paper" className="h-11 w-11" />
             <p className="mt-6 max-w-xs text-[0.9375rem] leading-relaxed text-sand-soft">
@@ -63,13 +63,13 @@ export function SiteFooter() {
         </div>
 
         {/* Oversized wordmark — the sign-off */}
-        <div aria-hidden="true" className="mt-20 select-none">
+        <div aria-hidden="true" className="mt-auto pt-12 select-none">
           <p className="font-display text-[clamp(4.5rem,20vw,17rem)] leading-[0.78] font-extrabold tracking-[-0.06em] text-paper/[0.07]">
             Bingo<span className="text-spark/40">.</span>
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-line-dark pt-8 text-xs text-sand sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-2 border-t border-line-dark pt-5 text-xs text-sand sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.legalName}. Built by hand, not by builder.
           </p>
@@ -116,7 +116,7 @@ function FooterLink({
   external?: boolean;
 }) {
   const className =
-    "link-wipe inline-flex min-h-11 items-center text-[0.9375rem] text-sand-soft transition-colors duration-200 hover:text-paper";
+    "link-wipe inline-flex min-h-11 items-center text-[0.9375rem] text-sand-soft lg:min-h-9 transition-colors duration-200 hover:text-paper";
 
   return (
     <li>

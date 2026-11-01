@@ -6,7 +6,8 @@ import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { Spark } from "@/components/logo";
 import { ButtonLink, Container, SectionHeading } from "@/components/ui";
-import { projects } from "@/lib/projects";
+import { BrowserMockup } from "@/components/browser-mockup";
+import { getProject, projects } from "@/lib/projects";
 import { process, services } from "@/lib/services";
 
 export const metadata: Metadata = {
@@ -15,6 +16,19 @@ export const metadata: Metadata = {
     "Web design, local SEO, AI social scheduling, website care, and AI solutions — the five things Bingo does, and exactly what you get with each.",
   alternates: { canonical: "/services" },
 };
+
+// shortcut: stand-in photos are existing client site screenshots, one per service; swap for service-specific shots when we have them
+const showcase = Object.fromEntries(
+  (
+    [
+      ["web-design", "archform"],
+      ["local-seo", "lone-wolf-studio"],
+      ["social-scheduling", "zippybooks"],
+      ["website-care", "miba-college"],
+      ["ai-solutions", "premium-seaman-service"],
+    ] as const
+  ).map(([service, slug]) => [service, getProject(slug)!]),
+);
 
 export default function ServicesPage() {
   return (
@@ -67,19 +81,31 @@ export default function ServicesPage() {
                     {service.description}
                   </p>
 
-                  <div className="mt-9 border-t border-line pt-6">
-                    <dt className="text-[0.6875rem] font-semibold tracking-[0.2em] text-sand-ink uppercase">
-                      The outcome
-                    </dt>
-                    <dd className="mt-2 font-serif text-lg leading-snug text-spark-deep">
+                  <div className="mt-9 rounded-2xl bg-spark-wash p-6">
+                    <p className="text-[0.6875rem] font-semibold tracking-[0.2em] text-spark-deep uppercase">
+                      Expected outcome
+                    </p>
+                    <p className="mt-2 font-serif text-xl leading-snug text-ink">
                       {service.outcome}
-                    </dd>
+                    </p>
                   </div>
                 </Reveal>
               </div>
 
               <div className="lg:col-span-7">
                 <Reveal delay={90}>
+                  {showcase[service.slug] ? (
+                    <div className="group mb-12">
+                      <BrowserMockup
+                        domain={showcase[service.slug].domain}
+                        screenshot={showcase[service.slug].screenshot}
+                        alt={`${showcase[service.slug].name} — example of our work`}
+                      />
+                      <p className="mt-3 text-xs text-ink-soft">
+                        From our work: {showcase[service.slug].name}
+                      </p>
+                    </div>
+                  ) : null}
                   <h3 className="text-[0.6875rem] font-semibold tracking-[0.22em] text-sand-ink uppercase">
                     What's included
                   </h3>

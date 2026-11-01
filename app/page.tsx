@@ -7,7 +7,6 @@ import { Reveal } from "@/components/reveal";
 import { Spark } from "@/components/logo";
 import { WindowFrame } from "@/components/window-frame";
 import {
-  Arrow,
   ButtonLink,
   Container,
   Eyebrow,
@@ -24,6 +23,7 @@ export default function HomePage() {
     <>
       <Hero />
       <TickerStrip />
+      <StatsStrip />
       <ServicesSection />
       <WhyUsSection />
       <WorkSection featured={featured} />
@@ -39,11 +39,11 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="vignette relative overflow-hidden pt-32 pb-20 sm:pt-40 lg:pt-44 lg:pb-28">
+    <section className="vignette relative flex items-center overflow-hidden pt-28 pb-16 lg:min-h-svh lg:pt-24 lg:pb-10">
       <HeroGrid />
 
       <Container className="relative">
-        <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-12">
           {/* ---- statement ---- */}
           <div className="lg:col-span-7">
             <Reveal>
@@ -53,7 +53,7 @@ function Hero() {
             </Reveal>
 
             <Reveal delay={80}>
-              <h1 className="mt-7 text-[clamp(2.9rem,8.4vw,6.4rem)] leading-[0.9] text-ink">
+              <h1 className="mt-6 text-[clamp(2.1rem,5.2vw,3.9rem)] leading-[0.95] text-ink">
                 Built to look good.
                 <br />
                 Built to get found.
@@ -63,7 +63,7 @@ function Hero() {
             </Reveal>
 
             <Reveal delay={160}>
-              <p className="mt-8 max-w-xl text-[1.0625rem] leading-relaxed text-ink-soft sm:text-lg">
+              <p className="mt-6 max-w-lg text-[0.9375rem] leading-relaxed text-ink-soft sm:text-base">
                 From websites to local SEO to AI-powered social media, we
                 build the digital stuff that actually moves your business
                 forward.
@@ -71,7 +71,7 @@ function Hero() {
             </Reveal>
 
             <Reveal delay={220}>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <ButtonLink href="/contact" tone="ink">
                   Let&apos;s Build Something
                 </ButtonLink>
@@ -79,24 +79,6 @@ function Hero() {
                   Check My Website
                 </ButtonLink>
               </div>
-            </Reveal>
-
-            <Reveal delay={280}>
-              <dl className="mt-14 grid max-w-lg grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-4">
-                {stats.map((s) => (
-                  <div key={s.label}>
-                    <dt className="sr-only">{s.label}</dt>
-                    <dd>
-                      <span className="tabular block font-display text-2xl font-bold tracking-[-0.05em] text-ink">
-                        {s.value}
-                      </span>
-                      <span className="mt-1 block text-xs leading-snug text-ink-soft">
-                        {s.label}
-                      </span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
             </Reveal>
           </div>
 
@@ -106,7 +88,7 @@ function Hero() {
               <WindowFrame
                 label="bingowebstudio.com"
                 className="shadow-[0_36px_80px_-40px_rgba(36,39,44,0.4)]"
-                bodyClassName="bg-white/60 p-6 sm:p-8"
+                bodyClassName="bg-white/60 p-5 sm:p-6"
               >
                 <p className="font-display text-[clamp(1.6rem,3.2vw,2.3rem)] leading-[1] font-extrabold tracking-[-0.05em] text-ink">
                   One team.
@@ -114,11 +96,11 @@ function Hero() {
                   Every service.
                 </p>
 
-                <ul className="mt-7 space-y-2.5">
+                <ul className="mt-5 space-y-2">
                   {services.map((s) => (
                     <li
                       key={s.slug}
-                      className="flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3"
+                      className="flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-2.5"
                     >
                       <span className="tabular font-display text-xs font-bold text-sand-ink">
                         {s.index}
@@ -132,7 +114,7 @@ function Hero() {
                 </ul>
 
                 {/* a small performance readout — the thing clients actually feel */}
-                <div className="mt-7 rounded-xl bg-ink p-5">
+                <div className="mt-5 rounded-xl bg-ink p-4 [@media(max-height:760px)]:hidden">
                   <p className="text-[0.6875rem] font-semibold tracking-[0.2em] text-sand uppercase">
                     Median build
                   </p>
@@ -193,6 +175,34 @@ function TickerStrip() {
 }
 
 /* ================================================================== */
+/* Stats                                                               */
+/* ================================================================== */
+
+function StatsStrip() {
+  return (
+    <section className="py-14 sm:py-16">
+      <Container>
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4">
+          {stats.map((s) => (
+            <Reveal key={s.label}>
+              <dt className="sr-only">{s.label}</dt>
+              <dd>
+                <span className="tabular block font-display text-4xl font-bold tracking-[-0.05em] text-ink">
+                  {s.value}
+                </span>
+                <span className="mt-1 block text-sm leading-snug text-ink-soft">
+                  {s.label}
+                </span>
+              </dd>
+            </Reveal>
+          ))}
+        </dl>
+      </Container>
+    </section>
+  );
+}
+
+/* ================================================================== */
 /* Services                                                            */
 /* ================================================================== */
 
@@ -200,50 +210,49 @@ function ServicesSection() {
   return (
     <section id="services" className="py-24 sm:py-32">
       <Container>
-        <SectionHeading
-          eyebrow="What we do"
-          title={
-            <>
-              Everything your business
-              <br className="hidden sm:block" /> needs online.
-            </>
-          }
-          lead="Most agencies sell one thing and outsource the rest. We keep design, SEO, social, care, and AI in the same building, because a great website with no visibility and a visible site nobody maintains are the same problem wearing different clothes."
-        />
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-32">
+              <SectionHeading
+                eyebrow="What we do"
+                title="Everything your business needs online."
+                lead="Most agencies sell one thing and outsource the rest. We keep design, SEO, social, care, and AI in the same building, because a great website with no visibility and a visible site nobody maintains are the same problem wearing different clothes."
+              />
+              <div className="mt-9">
+                <ButtonLink href="/services" tone="ghost">
+                  All services
+                </ButtonLink>
+              </div>
+            </div>
+          </div>
 
-        <div className="mt-16 border-t border-line">
-          {services.map((service, i) => (
-            <Reveal key={service.slug} delay={i * 70}>
-              <Link
-                href={`/services#${service.slug}`}
-                className="group grid gap-6 border-b border-line py-10 transition-colors duration-300 hover:bg-paper-2/60 sm:py-12 lg:grid-cols-12 lg:gap-8"
+          <ol className="lg:col-span-7">
+            {services.map((service, i) => (
+              <Reveal
+                key={service.slug}
+                as="li"
+                delay={i * 70}
+                className="border-t border-line last:border-b"
               >
-                <div className="flex items-start gap-5 lg:col-span-4">
-                  <span className="tabular mt-2 font-display text-sm font-bold text-sand-ink">
+                <Link
+                  href={`/services#${service.slug}`}
+                  className="group flex gap-6 px-5 py-8 transition-colors duration-300 hover:bg-spark-wash sm:gap-10 sm:px-8"
+                >
+                  <span className="tabular w-10 shrink-0 font-display text-sm font-bold text-sand-ink transition-colors duration-300 group-hover:text-spark-deep">
                     {service.index}
                   </span>
-                  <h3 className="text-[clamp(1.6rem,3.2vw,2.4rem)] text-ink transition-colors duration-300 group-hover:text-spark-deep">
-                    {service.title}
-                  </h3>
-                </div>
-
-                <div className="lg:col-span-6">
-                  <p className="max-w-lg text-[0.9375rem] leading-relaxed text-ink-soft">
-                    {service.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-end lg:col-span-2">
-                  <span
-                    aria-hidden="true"
-                    className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors duration-300 group-hover:border-spark group-hover:bg-spark group-hover:text-ink-2"
-                  >
-                    <Arrow />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+                  <div>
+                    <h3 className="text-2xl text-ink transition-colors duration-300 group-hover:text-spark-deep sm:text-3xl">
+                      {service.title}
+                    </h3>
+                    <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ink-soft">
+                      {service.description}
+                    </p>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>
