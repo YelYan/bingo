@@ -91,6 +91,33 @@ Built in rather than bolted on, since both are things Bingo sells:
 - Per-route metadata and canonicals, `sitemap.xml`, `robots.txt`, `ProfessionalService` JSON-LD site-wide and `FAQPage` + `OfferCatalog` on pricing
 - All 19 routes prerender to static HTML; shared JS is ~102 kB
 
+## BingoMart app
+
+The first slice of the product: a shopper orders from a shop page, pays by cash on delivery or transfer with a receipt photo, the seller approves it and moves the parcel through its steps, and the shopper follows along by link.
+
+| Folder | What it is |
+| --- | --- |
+| `apps/bingomart-api` | NestJS API on PostgreSQL. Modules: `iam`, `catalog`, `orders`, `payments`, `shipping` |
+| `apps/bingomart` | Next.js web app. `/s/<shop>` storefront, `/t/<token>` tracking, `/seller` back office |
+
+Run each in its own terminal. The API starts its own local PostgreSQL in `apps/bingomart-api/.pg`, so no install or account is needed:
+
+```bash
+pnpm --filter bingomart-api dev
+```
+
+```bash
+pnpm --filter bingomart dev
+```
+
+Then open <http://localhost:3001>. Run the API tests, on a throwaway database, with:
+
+```bash
+pnpm --filter bingomart-api test
+```
+
+To host the API, set `DATABASE_URL` (the app role, which migration creates and which must not be a superuser) and `DATABASE_ADMIN_URL`, then run `pnpm --filter bingomart-api migrate`. The database must be UTF8. Set `API_URL` on the web app. All Burmese wording is in `apps/bingomart/lib/copy.ts`. Decisions and what is left out: [ADR 0002](docs/adr/0002-bingomart-first-slice.md).
+
 ## Deploy — Cloudflare Workers
 
 Configured for Cloudflare via the [OpenNext adapter](https://opennext.js.org/cloudflare), which runs the real Next.js server on Workers. A static export is *not* an option while the contact form uses a server action.

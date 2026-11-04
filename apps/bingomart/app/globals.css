@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* BingoMart's palette, from the UI/UX design canvas. Saffron is for fills and
+   text on the dark teals only: it fails contrast on the light ground. */
+@theme {
+  --color-ground: #f6f3ec;
+  --color-card: #ffffff;
+  --color-ink: #1e2420;
+  --color-soft: #5c645f;
+  --color-line: #e3ded2;
+  --color-deep: #0e3d35;
+  --color-panel: #14504a;
+  --color-teal: #0e6b5b;
+  --color-mint: #ddf0ea;
+  --color-mist: #a9cfc6;
+  --color-saffron: #f2b531;
+  --color-cream: #fff6da;
+  --color-amber: #6b4700;
+  --color-danger: #8f2a17;
+  --color-danger-wash: #fbeae6;
+
+  --font-display: var(--font-dm-sans), var(--font-noto-myanmar), sans-serif;
+  --font-sans: var(--font-inter), var(--font-noto-myanmar), system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Burmese stacks marks above and below the line; tighter leading clips them. */
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+}
+
+@utility field {
+  width: 100%;
+  min-height: 2.875rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: var(--color-card);
+  padding: 0.625rem 0.875rem;
+  font-size: 1rem;
+}
+
+@utility btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.125rem;
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+
+@utility btn-primary {
+  background: var(--color-teal);
+  color: #fff;
+  &:hover:not(:disabled) {
+    background: var(--color-deep);
+  }
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+@utility btn-ghost {
+  border: 1px solid #cfc8b5;
+  background: var(--color-card);
+  color: var(--color-ink);
+  &:hover:not(:disabled) {
+    background: var(--color-ground);
+  }
+}
+
+@utility btn-danger {
+  border: 1px solid var(--color-danger);
+  background: var(--color-card);
+  color: var(--color-danger);
+  &:hover:not(:disabled) {
+    background: var(--color-danger-wash);
+  }
+}
+
+@utility card {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-card);
+  padding: 1rem;
+}

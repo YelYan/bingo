@@ -4,23 +4,56 @@
     {
       "name": "bingo",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "bingo-site", "start"],
+      "runtimeArgs": [
+        "--filter",
+        "bingo-site",
+        "start"
+      ],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "bingo-dev",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "bingo-site", "dev"],
+      "runtimeArgs": [
+        "--filter",
+        "bingo-site",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "bingo-workers",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["wrangler", "dev", "--port", "8787"],
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "8787"
+      ],
       "port": 8787,
       "autoPort": true
+    },
+    {
+      "name": "bingomart-api",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "bingomart-api",
+        "dev"
+      ],
+      "port": 4000
+    },
+    {
+      "name": "bingomart",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "bingomart",
+        "dev"
+      ],
+      "port": 3001
     }
   ]
 }
