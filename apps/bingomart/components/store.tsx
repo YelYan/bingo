@@ -52,11 +52,15 @@ export function Store({ slug, products }: { slug: string; products: StoreProduct
       <ul className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 lg:grid-cols-4">
         {products.map((product, i) => (
           <li key={product.id} className="overflow-hidden rounded-2xl border border-line bg-card">
-            <div aria-hidden="true" className="flex h-32 items-center justify-center font-display text-4xl font-bold text-deep/40" style={{ background: TINTS[i % TINTS.length] }}>
-              {product.name.slice(0, 1)}
-            </div>
+            <Link href={`/s/${slug}/p/${product.id}`} className="block">
+              <div aria-hidden="true" className="flex h-32 items-center justify-center font-display text-4xl font-bold text-deep/40" style={{ background: TINTS[i % TINTS.length] }}>
+                {product.name.slice(0, 1)}
+              </div>
+            </Link>
             <div className="p-3">
-              <h2 className="text-[0.9375rem] font-semibold break-words">{product.name}</h2>
+              <Link href={`/s/${slug}/p/${product.id}`} className="block">
+                <h2 className="text-[0.9375rem] font-semibold break-words">{product.name}</h2>
+              </Link>
               <p className="font-bold text-teal">{formatMmk(product.priceMmk)}</p>
               {!product.inStock ? (
                 <p className="mt-2 text-sm font-semibold text-danger">ပစ္စည်းကုန်</p>

@@ -1,8 +1,15 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { mockApi } from "./mock/api";
 
-const API_URL = process.env.API_URL ?? "http://127.0.0.1:4000";
+/**
+ * Without API_URL every call is answered by the in-memory demo in lib/mock, so
+ * the whole app runs with no backend. Set API_URL to the BingoMart API's address
+ * to use the real one; nothing else needs to change.
+ */
+const API_URL = process.env.API_URL;
+export const isMock = !API_URL;
 const SESSION_COOKIE = "bm_session";
 
 export type ApiResult<T> = { ok: true; data: T } | { ok: false; status: number; code: string };
@@ -12,6 +19,8 @@ export async function api<T = any>(
   path: string,
   options: { method?: string; body?: unknown; form?: FormData; seller?: boolean } = {},
 ): Promise<ApiResult<T>> {
+  if (isMock) return mockApi(path, options as any) as ApiResult<T>;
+
   const token = options.seller ? (await cookies()).get(SESSION_COOKIE)?.value : undefined;
   let res: Response;
   try {
