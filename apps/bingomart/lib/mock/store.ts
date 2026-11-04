@@ -5,7 +5,8 @@
  */
 import { randomUUID } from "node:crypto";
 
-export type MockProduct = { id: string; name: string; priceMmk: number; costMmk: number; stock: number; active: boolean };
+export type Variants = { sizes?: string[]; colors?: string[] };
+export type MockProduct = { id: string; name: string; priceMmk: number; costMmk: number; stock: number; active: boolean; variants?: Variants };
 export type MockEvent = { type: string; occurredAt: string; payload?: Record<string, string | undefined> };
 export type MockOrder = {
   id: string;
@@ -41,16 +42,26 @@ const minutesAgo = (m: number) => new Date(Date.now() - m * 60_000).toISOString(
 const dayAhead = (d: number) => new Date(Date.now() + d * 86_400_000).toISOString().slice(0, 10);
 
 function seed(): MockStore {
+  const sizes = ["S", "M", "L", "XL"];
+  const colors = ["အဖြူ", "အနက်", "အညို"];
   const products: MockProduct[] = [
-    ["ရှပ်အင်္ကျီ အဖြူ", 28000, 15000, 12],
-    ["ပိုးချည် လုံချည်", 45000, 30000, 2],
-    ["ထမီ ပန်းနု", 52000, 34000, 4],
-    ["ဘောင်းဘီရှည်", 38000, 22000, 9],
-    ["လက်ဆွဲအိတ်", 35000, 20000, 6],
-    ["ဦးထုပ်", 12000, 6000, 20],
-    ["ပုဝါ ပန်းထိုး", 18500, 9000, 0],
-    ["ဖိနပ်", 24000, 14000, 7],
-  ].map(([name, priceMmk, costMmk, stock], i) => ({ id: `p${i + 1}`, name: name as string, priceMmk: priceMmk as number, costMmk: costMmk as number, stock: stock as number, active: true }));
+    ["ရှပ်အင်္ကျီ အဖြူ", 28000, 15000, 12, { sizes }],
+    ["ပိုးချည် လုံချည်", 45000, 30000, 2, { colors: ["အပြာ", "အစိမ်း", "အနီ"] }],
+    ["ထမီ ပန်းနု", 52000, 34000, 4, { sizes: ["S", "M", "L"] }],
+    ["ဘောင်းဘီရှည်", 38000, 22000, 9, { sizes, colors: ["အနက်", "ခါကီ"] }],
+    ["လက်ဆွဲအိတ်", 35000, 20000, 6, { colors }],
+    ["ဦးထုပ်", 12000, 6000, 20, undefined],
+    ["ပုဝါ ပန်းထိုး", 18500, 9000, 0, { colors: ["ပန်းရောင်", "အဝါ"] }],
+    ["ဖိနပ်", 24000, 14000, 7, { sizes: ["38", "39", "40", "41", "42"] }],
+  ].map(([name, priceMmk, costMmk, stock, variants], i) => ({
+    id: `p${i + 1}`,
+    name: name as string,
+    priceMmk: priceMmk as number,
+    costMmk: costMmk as number,
+    stock: stock as number,
+    active: true,
+    variants: variants as Variants | undefined,
+  }));
 
   const byName = (name: string) => products.find((p) => p.name === name)!;
   const base = [

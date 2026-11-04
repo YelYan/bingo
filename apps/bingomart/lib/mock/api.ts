@@ -166,7 +166,7 @@ export function mockApi(path: string, options: { method?: string; body?: any; fo
     const { id, slug, name, deliveryFeeMmk } = mock.shop;
     return ok({
       shop: { id, slug, name, deliveryFeeMmk },
-      products: mock.products.filter((p) => p.active).map((p) => ({ id: p.id, name: p.name, priceMmk: p.priceMmk, inStock: p.stock > 0 })),
+      products: mock.products.filter((p) => p.active).map((p) => ({ id: p.id, name: p.name, priceMmk: p.priceMmk, inStock: p.stock > 0, variants: p.variants })),
     });
   }
   if ((m = path.match(/^\/shops\/([^/]+)\/orders$/)) && method === "POST") return m[1] === DEMO_SLUG ? placeOrder(body) : fail(404, "SHOP_NOT_FOUND");

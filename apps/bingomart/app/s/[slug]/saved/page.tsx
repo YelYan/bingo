@@ -12,7 +12,7 @@ export default async function SavedPage({ params }: { params: Promise<{ slug: st
 
   return (
     <div className="mx-auto flex min-h-svh max-w-md flex-col">
-      <ShopHeader name={result.data.shop.name} slug={slug} />
+      <ShopHeader name={result.data.shop.name} slug={slug} products={result.data.products} />
       <main id="main" className="flex flex-1 flex-col items-center justify-center gap-3 p-10 text-center">
         <p className="text-5xl" aria-hidden="true">♡</p>
         <p className="text-soft">သိမ်းထားသော ပစ္စည်း မရှိသေးပါ။ နှစ်သက်သော ပစ္စည်းကို ♡ နှိပ်၍ သိမ်းနိုင်သည်။</p>

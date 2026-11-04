@@ -14,7 +14,7 @@ export default async function MyOrdersPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="mx-auto flex min-h-svh max-w-md flex-col">
-      <ShopHeader name={result.data.shop.name} slug={slug} />
+      <ShopHeader name={result.data.shop.name} slug={slug} products={result.data.products} />
       <main id="main" className="flex-1 p-4">
         <h1 className="mb-3 text-lg font-bold">ကျွန်ုပ် အော်ဒါများ</h1>
         <p className="rounded-xl bg-[#e7f0fb] px-3.5 py-3 text-[0.8125rem] text-[#1f4e8c]">

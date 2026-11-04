@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { CartDrawer } from "./cart-drawer";
+import { useCart, type StoreProduct } from "./store";
 
 /** A phone-width screen, centred on wider displays. Used for shopper, rider and owner-phone pages. */
 export function MobileScreen({
@@ -42,7 +46,12 @@ export function MobileScreen({
   );
 }
 
-export function ShopHeader({ name, slug, cart = 0 }: { name: string; slug: string; cart?: number }) {
+/** The shop header: logo, search, and a cart button that opens a slide-in drawer (the default storefront pattern). */
+export function ShopHeader({ name, slug, products = [] }: { name: string; slug: string; products?: StoreProduct[] }) {
+  const [open, setOpen] = useState(false);
+  const [cart] = useCart(slug);
+  const count = Object.values(cart).reduce((s, q) => s + q, 0);
+
   return (
     <header className="flex items-center justify-between gap-3 border-b border-line bg-card px-4 py-2.5">
       <Link href={`/s/${slug}`} className="flex min-h-11 min-w-0 items-center gap-2.5">
@@ -53,11 +62,12 @@ export function ShopHeader({ name, slug, cart = 0 }: { name: string; slug: strin
         <Link href={`/s/${slug}/search`} aria-label="ရှာရန်" className="flex h-11 w-11 items-center justify-center">
           <svg viewBox="0 0 24 24" className="h-[1.375rem] w-[1.375rem]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M11 18a7 7 0 100-14 7 7 0 000 14zM21 21l-5-5" /></svg>
         </Link>
-        <Link href={`/s/${slug}/cart`} aria-label={`ခြင်းတောင်း (${cart})`} className="relative flex h-11 w-11 items-center justify-center">
+        <button type="button" aria-label={`ခြင်းတောင်း ဖွင့်ရန် (${count})`} onClick={() => setOpen(true)} className="relative flex h-11 w-11 items-center justify-center">
           <svg viewBox="0 0 24 24" className="h-[1.375rem] w-[1.375rem]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5zM9 7a3 3 0 016 0" /></svg>
-          {cart > 0 ? <span className="absolute top-1.5 right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[0.6875rem] font-bold text-white">{cart}</span> : null}
-        </Link>
+          {count > 0 ? <span className="absolute top-1.5 right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[0.6875rem] font-bold text-white">{count}</span> : null}
+        </button>
       </nav>
+      <CartDrawer slug={slug} products={products} open={open} onClose={() => setOpen(false)} />
     </header>
   );
 }
