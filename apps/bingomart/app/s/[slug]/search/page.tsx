@@ -13,7 +13,7 @@ export default async function SearchPage({ params }: { params: Promise<{ slug: s
   const { shop, products } = result.data;
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-md flex-col">
+    <div className="mx-auto flex min-h-svh max-w-[84rem] flex-col">
       <ShopHeader name={shop.name} slug={slug} products={products} />
       <main id="main" className="flex-1">
         <SearchClient slug={slug} products={products} />
