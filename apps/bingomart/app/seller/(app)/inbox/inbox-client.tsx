@@ -22,7 +22,7 @@ export function InboxClient() {
   };
 
   return (
-    <div className="grid overflow-hidden rounded-2xl border border-line bg-card lg:grid-cols-[19rem_minmax(0,1fr)] 2xl:grid-cols-[19rem_minmax(0,1fr)_20rem]">
+    <div className="grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-line bg-card lg:grid-cols-[19rem_minmax(0,1fr)] 2xl:grid-cols-[19rem_minmax(0,1fr)_20rem]">
       <aside className="border-line lg:border-r">
         <div className="border-b border-[#eee9dd] p-3">
           <Pills label="စစ်ထုတ်ရန်" options={["အားလုံး", "လူလိုသည် 3", "AI ဖြေနေ 9"]} />
@@ -33,7 +33,7 @@ export function InboxClient() {
             const last = threads[c.id].at(-1)!;
             return (
               <li key={c.id}>
-                <button type="button" aria-current={c.id === activeId} onClick={() => setActiveId(c.id)} className={`flex w-full gap-3 border-b border-[#eee9dd] p-3 text-left ${c.id === activeId ? "bg-mint" : "hover:bg-ground"}`}>
+                <button type="button" aria-current={c.id === activeId} onClick={() => { setActiveId(c.id); if (!window.matchMedia("(min-width: 1024px)").matches) document.getElementById("thread")?.scrollIntoView({ behavior: "smooth" }); }} className={`flex w-full gap-3 border-b border-[#eee9dd] p-3 text-left ${c.id === activeId ? "bg-mint" : "hover:bg-ground"}`}>
                   <Avatar name={c.name} color={channelColor[c.ch]} />
                   <span className="min-w-0 flex-1">
                     <span className="flex justify-between gap-2"><span className="truncate text-[0.9375rem] font-semibold">{c.name}</span><span className="flex-none text-xs text-soft">{c.time}</span></span>
@@ -47,7 +47,7 @@ export function InboxClient() {
         </ul>
       </aside>
 
-      <section className="flex min-w-0 flex-col bg-ground">
+      <section id="thread" className="flex min-w-0 scroll-mt-20 flex-col bg-ground">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-card px-4 py-3">
           <div className="min-w-0">
             <h2 className="text-base">{active.name} <Chip>{active.ch}</Chip></h2>
