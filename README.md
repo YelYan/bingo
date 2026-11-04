@@ -113,6 +113,22 @@ pnpm --filter bingo-site preview
 
 Config lives in [`wrangler.jsonc`](wrangler.jsonc) (worker name `bingo`, `nodejs_compat`, assets from `.open-next/assets`) and [`open-next.config.ts`](open-next.config.ts). Defaults are correct here: everything is prerendered, so there is no incremental cache to wire up. Add R2/KV caching there if ISR is introduced later.
 
+### Contact form email
+
+The contact form sends through [Resend](https://resend.com). Without a working key, the form tells the visitor it failed and shows `site.email`, and the message is not stored anywhere.
+
+1. Create a Resend account using the address in `site.email` (`lib/site.ts`). Until a domain is verified, Resend's `onboarding@resend.dev` sender only delivers to the account's own address.
+2. Create an API key with sending access.
+3. Add it to the deployed Worker:
+
+   ```bash
+   cd apps/bingo-site && npx wrangler secret put RESEND_API_KEY
+   ```
+
+4. For local testing, put `RESEND_API_KEY=...` in `apps/bingo-site/.env.local` (gitignored), then submit the form from `pnpm --filter bingo-site build` and `start`.
+
+Run the delivery tests with `pnpm --filter bingo-site test`. To send from your own address, verify the domain in Resend and change `FROM` in `lib/contact-email.ts`.
+
 ### Continuous deployment (Workers Builds)
 
 Connect this repo in **Workers & Pages → Create → Workers → Import a repository**, then:

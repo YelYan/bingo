@@ -21,7 +21,7 @@ const sections = [
   },
   {
     h: "How we use it",
-    p: "To reply to you, and to keep a record of the conversation while a project is live. We do not sell it, rent it, or add you to a mailing list you did not ask for. No automated drip sequence will follow this form.",
+    p: "To reply to you, and to keep a record of the conversation while a project is live. Your message reaches our inbox through our email provider, Resend, which handles the delivery. We do not sell it, rent it, or add you to a mailing list you did not ask for. No automated drip sequence will follow this form.",
   },
   {
     h: "How long we keep it",

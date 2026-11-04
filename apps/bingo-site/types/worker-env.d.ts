@@ -5,4 +5,5 @@
 // overwritten on the next `npm run cf-typegen`).
 interface CloudflareEnv {
   ANTHROPIC_API_KEY?: string;
+  RESEND_API_KEY?: string;
 }

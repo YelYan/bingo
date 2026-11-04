@@ -4,8 +4,11 @@ import type { ContactState } from "./contact-state";
 import type { PromptNestState } from "./promptnest-state";
 import type { RankViewState } from "./rankview-state";
 import type { SiteCheckrState } from "./sitecheckr-state";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { generateWebsitePrompt } from "./prompt-template";
 import { auditHtml } from "./site-audit";
+import { sendContactEmail } from "./contact-email";
+import { site } from "./site";
 import {
   CLAUDE_MODEL_SEARCH,
   WEB_SEARCH_TOOL,
@@ -15,6 +18,16 @@ import {
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+async function getResendApiKey(): Promise<string | undefined> {
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    if (env.RESEND_API_KEY) return env.RESEND_API_KEY;
+  } catch {
+    // Not running under the Workers runtime — fall through to process.env.
+  }
+  return process.env.RESEND_API_KEY;
+}
+
 export async function submitContact(
   _prev: ContactState,
   formData: FormData,
@@ -22,8 +35,8 @@ export async function submitContact(
   const values = {
     name: String(formData.get("name") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
-    company: String(formData.get("company") ?? "").trim(),
-    siteUrl: String(formData.get("site_url") ?? "").trim(),
+    company: String(formData.get("company") ?? "").trim().slice(0, 200),
+    siteUrl: String(formData.get("site_url") ?? "").trim().slice(0, 200),
     brief: String(formData.get("brief") ?? "").trim(),
   };
 
@@ -34,9 +47,13 @@ export async function submitContact(
 
   const errors: ContactState["errors"] = {};
   if (values.name.length < 2) errors.name = "Tell us who you are.";
-  if (!EMAIL.test(values.email)) errors.email = "That address looks incomplete.";
+  else if (values.name.length > 100) errors.name = "Please shorten this to 100 characters.";
+  if (!EMAIL.test(values.email) || values.email.length > 254)
+    errors.email = "That address looks incomplete.";
   if (values.brief.length < 20)
     errors.brief = "A little more detail helps us actually help you — 20 characters minimum.";
+  else if (values.brief.length > 5000)
+    errors.brief = "Please shorten this to 5,000 characters.";
 
   if (Object.keys(errors).length > 0) {
     return {
@@ -47,15 +64,24 @@ export async function submitContact(
     };
   }
 
-  // ---------------------------------------------------------------
-  // Delivery goes here. Drop in a transactional provider — Resend,
-  // Postmark, SendGrid — or forward to a CRM webhook. Everything above
-  // (validation, honeypot, error shape) already works as-is.
-  //
-  //   await resend.emails.send({ to: site.email, ...values })
-  //
-  // Until that is wired up, nothing is sent anywhere.
-  // ---------------------------------------------------------------
+  const interests = formData
+    .getAll("interest")
+    .map((interest) => String(interest).slice(0, 50))
+    .slice(0, 10);
+
+  const sent = await sendContactEmail(
+    { ...values, interests },
+    await getResendApiKey(),
+    site.email,
+  );
+
+  if (!sent) {
+    return {
+      status: "error",
+      message: `We couldn't send your message. Please email us at ${site.email}.`,
+      values,
+    };
+  }
 
   return {
     status: "success",
