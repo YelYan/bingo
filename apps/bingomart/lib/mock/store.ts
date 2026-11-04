@@ -50,7 +50,7 @@ function seed(): MockStore {
     ["ဦးထုပ်", 12000, 6000, 20],
     ["ပုဝါ ပန်းထိုး", 18500, 9000, 0],
     ["ဖိနပ်", 24000, 14000, 7],
-  ].map(([name, priceMmk, costMmk, stock]) => ({ id: randomUUID(), name: name as string, priceMmk: priceMmk as number, costMmk: costMmk as number, stock: stock as number, active: true }));
+  ].map(([name, priceMmk, costMmk, stock], i) => ({ id: `p${i + 1}`, name: name as string, priceMmk: priceMmk as number, costMmk: costMmk as number, stock: stock as number, active: true }));
 
   const byName = (name: string) => products.find((p) => p.name === name)!;
   const base = [
