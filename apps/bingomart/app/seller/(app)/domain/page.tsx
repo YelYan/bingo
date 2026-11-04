@@ -11,7 +11,7 @@ export default function DomainPage() {
     <>
       <PageHead title="Domain" />
       <Panel title="လက်ရှိ လိပ်စာ">
-        <p className="flex items-center gap-2.5 text-lg font-bold">{owner.domain}<Chip tone="ok">ချိတ်ပြီး · SSL ✓</Chip></p>
+        <p className="flex flex-wrap items-center gap-2.5 text-lg font-bold break-all">{owner.domain}<Chip tone="ok">ချိတ်ပြီး · SSL ✓</Chip></p>
       </Panel>
       <Panel title="သင့် domain ကိုယ်ပိုင် သုံးမည်">
         <ActionForm action={noopAction} className="flex flex-col gap-3 sm:flex-row sm:items-end">
