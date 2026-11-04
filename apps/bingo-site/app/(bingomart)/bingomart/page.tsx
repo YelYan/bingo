@@ -7,7 +7,10 @@ const EARLY_ACCESS =
 const SURVEY =
   "https://docs.google.com/forms/d/e/1FAIpQLSd8kvmrGfboBFYJicniVkdQVWHQ9MFPDmDnFVPrX2YPexrwUA/viewform";
 
-const gutter = "mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-12";
+// The BingoMart app Worker, attached to this domain in Cloudflare. Demo data only.
+const APP_PREVIEW = "https://bingomart.bingowebstudio.com/screens";
+
+const gutter ="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-12";
 const button =
   "inline-flex min-h-13 items-center justify-center rounded-full px-8 font-semibold transition-colors";
 const sectionTitle = "text-[clamp(2.1rem,4.4vw,3rem)]";
@@ -146,6 +149,9 @@ export default function BingoMartPage() {
               </a>
               <a href="#features" className={`${button} border-2 border-mart-ink text-mart-ink hover:bg-mart-ink hover:text-mart-paper`}>
                 See what it does
+              </a>
+              <a href={APP_PREVIEW} className={`${button} text-mart-teal underline underline-offset-4 hover:text-mart-ink`}>
+                Preview the app (demo)
               </a>
             </div>
           </div>
