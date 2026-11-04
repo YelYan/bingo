@@ -108,7 +108,7 @@ export function Store({ slug, products }: { slug: string; products: StoreProduct
         {filtered.length === 0 ? (
           <p className="flex-1 py-10 text-center text-soft">စစ်ထုတ်ချက်နှင့် ကိုက်ညီသော ပစ္စည်း မရှိပါ။</p>
         ) : (
-          <ul className="grid flex-1 grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid flex-1 grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 xl:grid-cols-4">
             {filtered.map((product) => {
               const i = products.indexOf(product);
               return (

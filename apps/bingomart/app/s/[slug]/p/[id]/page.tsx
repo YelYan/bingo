@@ -25,7 +25,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-[84rem]">
       <ShopHeader name={shop.name} slug={slug} products={products} />
       <main id="main" className="grid gap-6 p-4 sm:grid-cols-2 sm:items-start sm:gap-8 sm:p-6">
         <div className="sm:sticky sm:top-4">

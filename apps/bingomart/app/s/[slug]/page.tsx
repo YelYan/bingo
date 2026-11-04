@@ -23,7 +23,7 @@ export default async function StorePage({ params }: Props) {
   const { slug } = await params;
   const { shop, products } = await load(slug);
   return (
-    <div className="mx-auto flex min-h-svh max-w-5xl flex-col bg-ground">
+    <div className="mx-auto flex min-h-svh max-w-[84rem] flex-col bg-ground">
       <ShopHeader name={shop.name} slug={slug} products={products} />
       <main className="flex flex-1 flex-col justify-between">
         <Store slug={slug} products={products} />
