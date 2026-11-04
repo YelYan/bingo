@@ -3,15 +3,15 @@
   "configurations": [
     {
       "name": "bingo",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "bingo-site", "start"],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "bingo-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "bingo-site", "dev"],
       "port": 3000,
       "autoPort": true
     },
