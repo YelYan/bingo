@@ -1,9 +1,11 @@
 import { ButtonLink, Container } from "@/components/ui";
 import { nav } from "@/lib/site";
 import Link from "next/link";
+import BingoLayout from "./(bingo)/layout";
 
 export default function NotFound() {
   return (
+    <BingoLayout>
     <section className="vignette relative overflow-hidden pt-40 pb-32">
       <div aria-hidden="true" className="blueprint absolute inset-0" />
       <Container className="relative">
@@ -41,5 +43,6 @@ export default function NotFound() {
         </ul>
       </Container>
     </section>
+    </BingoLayout>
   );
 }

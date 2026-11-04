@@ -11,7 +11,7 @@ export function ProjectCard({
   priority?: boolean;
 }) {
   return (
-    <article className="group relative">
+    <article className="group @container relative">
       <Link
         href={`/work/${project.slug}`}
         className="block rounded-2xl outline-offset-4"
@@ -45,7 +45,7 @@ export function ProjectCard({
         </div>
       </Link>
 
-      <ul className="mt-6 grid gap-3 border-t border-line pt-5 sm:grid-cols-3 sm:gap-6">
+      <ul className="mt-6 grid gap-3 border-t border-line pt-5 @xl:grid-cols-3 @xl:gap-6">
         {project.highlights.slice(0, 3).map((h) => (
           <li
             key={h}

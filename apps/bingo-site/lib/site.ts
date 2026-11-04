@@ -1,11 +1,11 @@
 export const site = {
   name: "Bingo",
   legalName: "Bingo Digital Studio",
-  tagline: "Websites, SEO & Growth",
+  tagline: "Products for growing businesses",
   /** The whole brand rests on this one word. */
   idea: "aha",
   description:
-    "Bingo is a digital studio for businesses who want their online presence actually handled — websites, local SEO, AI-powered social, ongoing care, and smart AI tools, all under one roof.",
+    "Bingo makes products for small businesses: BingoMart, an online shop for Myanmar sellers; websites and local SEO from Bingo Studio; and free tools that show how you appear online.",
   url: "https://www.bingowebstudio.com",
   email: "bingo.officialwebstudio@gmail.com",
   phone: "+66 61 775 6151",
@@ -20,10 +20,10 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "Work", href: "/work" },
+  { label: "Products", href: "/products" },
   { label: "Services", href: "/services" },
-  { label: "Tools", href: "/tools" },
-  { label: "Studio", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Company", href: "/about" },
 ] as const;
 
 export const stats = [

@@ -84,7 +84,7 @@ export default function OpengraphImage() {
             color: "#24272c",
           }}
         >
-          Websites that end in an aha.
+          One company. Every tool your business needs online.
         </div>
 
         <div
@@ -97,7 +97,7 @@ export default function OpengraphImage() {
             color: "#6e5c4c",
           }}
         >
-          Web Design Studio · Code · Brand · SEO
+          BingoMart · Bingo Studio · Free tools
         </div>
       </div>
     ),

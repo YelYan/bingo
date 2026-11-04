@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Bricolage_Grotesque, Instrument_Serif } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { CursorSpark } from "@/components/cursor-spark";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -39,6 +36,8 @@ export const metadata: Metadata = {
   },
   description: site.description,
   keywords: [
+    "BingoMart",
+    "online shop Myanmar",
     "web design studio",
     "website design",
     "local SEO",
@@ -87,7 +86,7 @@ export const viewport: Viewport = {
 /* Structured data — a studio that sells SEO ought to mark itself up properly. */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
+  "@type": "Organization",
   name: site.legalName,
   alternateName: site.name,
   description: site.description,
@@ -95,7 +94,6 @@ const jsonLd = {
   email: site.email,
   telephone: site.phone,
   foundingDate: String(site.founded),
-  priceRange: "$$",
   areaServed: "Worldwide",
   knowsAbout: [
     "Web design",
@@ -116,7 +114,7 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${archivo.variable} ${instrument.variable}`}
     >
-      <body className="grain min-h-screen antialiased">
+      <body className="min-h-screen antialiased">
         {/* Runs before any reveal target parses. Only with this attribute set
             does the scroll-reveal CSS hide anything — no JS, no hidden text. */}
         <script
@@ -128,10 +126,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <CursorSpark />
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );

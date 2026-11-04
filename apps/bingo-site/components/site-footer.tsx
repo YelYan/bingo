@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
-import { services } from "@/lib/services";
+import { products } from "@/lib/products";
 import { LogoMark } from "./logo";
 import { Container } from "./ui";
 
@@ -35,22 +35,25 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <FooterColumn title="Studio">
-            {nav.map((item) => (
-              <FooterLink key={item.href} href={item.href}>
-                {item.label}
+          <FooterColumn title="Products">
+            {products.map((p) => (
+              <FooterLink key={p.slug} href={p.href}>
+                {p.name}
               </FooterLink>
             ))}
-            <FooterLink href="/contact">Contact</FooterLink>
+            <FooterLink href="/products">All products</FooterLink>
           </FooterColumn>
 
-          <FooterColumn title="Services">
-            {services.map((s) => (
-              <FooterLink key={s.slug} href={`/services#${s.slug}`}>
-                {s.short}
-              </FooterLink>
-            ))}
+          <FooterColumn title="Company">
+            {nav
+              .filter((item) => item.href !== "/products")
+              .map((item) => (
+                <FooterLink key={item.href} href={item.href}>
+                  {item.label}
+                </FooterLink>
+              ))}
             <FooterLink href="/tools">Free tools</FooterLink>
+            <FooterLink href="/contact">Contact</FooterLink>
           </FooterColumn>
 
           <FooterColumn title="Elsewhere">

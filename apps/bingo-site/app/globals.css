@@ -38,6 +38,21 @@
   --color-line: #ddd1c1;
   --color-line-dark: #33373d;
 
+  /* BingoMart — a brand of its own, applied under .mart below.
+     Saffron is for fills and text on the dark teals only: it fails on paper. */
+  --color-mart-ink: #0f3d38;
+  --color-mart-deep: #0a2b27;
+  --color-mart-panel: #14504a;
+  --color-mart-teal: #0e6b5b;
+  --color-mart-saffron: #f2b531;
+  --color-mart-paper: #f7f4ec;
+  --color-mart-sand: #efebdd;
+  --color-mart-line: #e4decf;
+  --color-mart-text: #1e2a27;
+  --color-mart-soft: #3e4a47;
+  --color-mart-mist: #b9d2cc;
+  --color-mart-amber: #8a5a00;
+
   /* Type */
   --font-display: var(--font-bricolage), "Trebuchet MS", sans-serif;
   --font-sans: var(--font-archivo), system-ui, sans-serif;
@@ -55,8 +70,11 @@
    Base
    ============================================================ */
 
-* {
-  border-color: var(--color-line);
+/* In a layer: unlayered, this beats every Tailwind border-colour utility. */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
 }
 
 html {
@@ -105,6 +123,30 @@ h4 {
 
 p {
   text-wrap: pretty;
+}
+
+/* ============================================================
+   BingoMart scope — swaps the parent brand's tokens for the
+   product's, so shared base rules (headings, focus, selection,
+   borders) follow without any per-element override.
+   ============================================================ */
+
+.mart {
+  --font-display: var(--font-dm-sans), "Trebuchet MS", sans-serif;
+  --font-sans: var(--font-inter), var(--font-noto-myanmar), system-ui, sans-serif;
+  --color-spark: var(--color-mart-teal);
+  --color-line: var(--color-mart-line);
+  min-height: 100svh;
+  background-color: var(--color-mart-paper);
+  color: var(--color-mart-text);
+  font-family: var(--font-sans);
+}
+
+.mart h1,
+.mart h2,
+.mart h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.08;
 }
 
 /* ============================================================
