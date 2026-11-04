@@ -46,6 +46,49 @@ export function MobileScreen({
   );
 }
 
+/** Same chrome as MobileScreen but wider — shopper utility/confirmation pages stay centred on desktop (Amazon's own account pages do too), just not phone-width. */
+export function WideScreen({
+  title,
+  sub,
+  back,
+  right,
+  children,
+  footer,
+  tone = "light",
+  width = "max-w-2xl",
+}: {
+  title: string;
+  sub?: string;
+  back?: string;
+  right?: ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
+  tone?: "light" | "teal" | "dark";
+  width?: string;
+}) {
+  const head = tone === "teal" ? "bg-teal text-white" : tone === "dark" ? "bg-ink text-white" : "border-b border-line bg-card";
+  return (
+    <div className={`mx-auto flex min-h-svh ${width} flex-col bg-ground`}>
+      <header className={`sticky top-0 z-10 flex items-center gap-3 px-4 py-2.5 sm:px-6 ${head}`}>
+        {back ? (
+          <Link href={back} aria-label="နောက်သို့" className="flex h-11 w-11 flex-none items-center justify-center text-xl">
+            ←
+          </Link>
+        ) : null}
+        <div className="min-w-0 flex-1">
+          <h1 className="text-base leading-snug break-words sm:text-lg">{title}</h1>
+          {sub ? <p className={`text-[0.8125rem] break-words ${tone === "light" ? "text-soft" : "opacity-80"}`}>{sub}</p> : null}
+        </div>
+        {right}
+      </header>
+      <main id="main" className="flex flex-1 flex-col gap-4 p-4 sm:p-6">
+        {children}
+      </main>
+      {footer ? <div className="sticky bottom-0 border-t border-line bg-card p-4 sm:p-6">{footer}</div> : null}
+    </div>
+  );
+}
+
 /** The shop header: logo, search, and a cart button that opens a slide-in drawer (the default storefront pattern). */
 export function ShopHeader({ name, slug, products = [] }: { name: string; slug: string; products?: StoreProduct[] }) {
   const [open, setOpen] = useState(false);

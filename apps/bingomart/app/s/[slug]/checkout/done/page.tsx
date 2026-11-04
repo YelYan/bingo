@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MobileScreen } from "@/components/mobile";
+import { WideScreen } from "@/components/mobile";
 import { KV, Notice, Steps, money } from "@/components/kit";
 
 export const metadata: Metadata = { title: "အော်ဒါ တင်ပြီးပါပြီ", robots: { index: false } };
@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "အော်ဒါ တင်ပြ�
 export default async function OrderPlacedPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   return (
-    <MobileScreen
+    <WideScreen
       title="အော်ဒါ တင်ပြီးပါပြီ"
       footer={
         <div className="flex flex-col gap-2">
@@ -45,6 +45,6 @@ export default async function OrderPlacedPage({ params }: { params: Promise<{ sl
           ]}
         />
       </section>
-    </MobileScreen>
+    </WideScreen>
   );
 }

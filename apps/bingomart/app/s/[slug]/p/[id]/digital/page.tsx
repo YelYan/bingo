@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MobileScreen } from "@/components/mobile";
+import { WideScreen } from "@/components/mobile";
 import { MockButton } from "@/components/kit-client";
 
 export const metadata: Metadata = { title: "ဒစ်ဂျစ်တယ် ပစ္စည်း" };
@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "ဒစ်ဂျစ်တယ် ပ�
 export default async function DigitalDeliveryPage({ params }: { params: Promise<{ slug: string; id: string }> }) {
   const { slug } = await params;
   return (
-    <MobileScreen title="ဒစ်ဂျစ်တယ် ပစ္စည်း ရယူရန်" back={`/s/${slug}`}>
+    <WideScreen title="ဒစ်ဂျစ်တယ် ပစ္စည်း ရယူရန်" back={`/s/${slug}`}>
       <section className="card flex flex-col items-center gap-2.5 text-center">
         <p aria-hidden="true" className="text-4xl">📦</p>
         <p className="font-semibold">ငွေပေးချေမှု အတည်ပြုပြီးပါပြီ</p>
@@ -19,6 +19,6 @@ export default async function DigitalDeliveryPage({ params }: { params: Promise<
         <MockButton done="ကော်ပီ ကူးပြီး" className="btn-ghost mt-2.5 w-full">ကုဒ် ကော်ပီကူးမည်</MockButton>
       </section>
       <MockButton done="ဒေါင်းလုဒ် စတင်ပြီး" className="btn-primary w-full">ဒေါင်းလုဒ် ရယူမည်</MockButton>
-    </MobileScreen>
+    </WideScreen>
   );
 }

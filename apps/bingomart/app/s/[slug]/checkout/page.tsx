@@ -15,8 +15,8 @@ export default async function CheckoutPage({ params }: { params: Promise<{ slug:
   }
   const { shop, products } = result.data;
   return (
-    <div className="mx-auto min-h-svh max-w-md">
-      <header className="flex items-center gap-3 border-b border-line bg-card px-4 py-3">
+    <div className="mx-auto min-h-svh max-w-5xl">
+      <header className="flex items-center gap-3 border-b border-line bg-card px-4 py-3 sm:px-6">
         <Link href={`/s/${slug}`} aria-label="ဆိုင်သို့ ပြန်သွားရန်" className="btn !min-h-11 !p-2 text-lg">←</Link>
         <h1 className="text-base">ငွေရှင်းရန်</h1>
       </header>

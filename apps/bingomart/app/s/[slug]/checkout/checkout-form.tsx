@@ -42,14 +42,44 @@ export function CheckoutForm({ slug, products, deliveryFeeMmk }: { slug: string;
   const subtotal = lines.reduce((sum, [id, qty]) => sum + byId.get(id)!.priceMmk * qty, 0);
 
   return (
-    <form action={action} onSubmit={keepValuesOnSubmit(action)} className="flex flex-col gap-4 p-4">
+    <form action={action} onSubmit={keepValuesOnSubmit(action)} className="grid gap-6 p-4 sm:grid-cols-[1fr_20rem] sm:items-start sm:gap-8 sm:p-6">
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="idempotencyKey" value={idempotencyKey} />
       <input type="hidden" name="items" value={JSON.stringify(lines.map(([productId, qty]) => ({ productId, qty })))} />
 
-      <section className="card">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
+          <Field label="အမည်"><input name="name" required maxLength={100} autoComplete="name" className="field" /></Field>
+          <Field label="ဖုန်းနံပါတ်"><input name="phone" required type="tel" inputMode="tel" autoComplete="tel" placeholder="09 ___ ___ ___" className="field" /></Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="တိုင်း / ပြည်နယ်">
+              <select name="region" required defaultValue="ရန်ကုန်" className="field">
+                {regions.map((region) => <option key={region}>{region}</option>)}
+              </select>
+            </Field>
+            <Field label="မြို့နယ်"><input name="township" required maxLength={60} className="field" /></Field>
+          </div>
+          <Field label="လမ်း / ရပ်ကွက် နှင့် အမှတ်အသား">
+            <textarea name="address" required minLength={3} maxLength={500} rows={2} placeholder="ဥပမာ — ၅ လမ်း၊ (၃) ရပ်ကွက်၊ ဘုရားရှေ့" className="field" />
+          </Field>
+        </div>
+
+        <fieldset>
+          <legend className="mb-2 font-semibold">ငွေပေးချေမည့်နည်း</legend>
+          <div className="grid grid-cols-2 gap-2">
+            {[["cod", "အိမ်ရောက်ငွေချေ (COD)"], ["transfer", "ငွေလွှဲ (KBZPay၊ Wave၊ ဘဏ်)"]].map(([value, label], i) => (
+              <label key={value} className="flex min-h-14 cursor-pointer items-center justify-center rounded-xl border border-[#d9d3c4] bg-card px-3 py-2 text-center text-sm font-semibold has-checked:border-2 has-checked:border-teal has-checked:bg-mint has-focus-visible:outline-2 has-focus-visible:outline-teal">
+                <input type="radio" name="paymentMethod" value={value} defaultChecked={i === 0} className="sr-only" />
+                {label}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      </div>
+
+      <section className="card flex flex-col gap-3 sm:sticky sm:top-4">
         <h2 className="font-bold">အော်ဒါ ({lines.length} မျိုး)</h2>
-        <ul className="mt-2 space-y-1 text-[0.9375rem]">
+        <ul className="space-y-1 text-[0.9375rem]">
           {lines.map(([id, qty]) => (
             <li key={id} className="flex justify-between gap-3">
               <span className="min-w-0 break-words">{byId.get(id)!.name} × {qty}</span>
@@ -57,40 +87,11 @@ export function CheckoutForm({ slug, products, deliveryFeeMmk }: { slug: string;
             </li>
           ))}
         </ul>
-      </section>
-
-      <div className="flex flex-col gap-3">
-        <Field label="အမည်"><input name="name" required maxLength={100} autoComplete="name" className="field" /></Field>
-        <Field label="ဖုန်းနံပါတ်"><input name="phone" required type="tel" inputMode="tel" autoComplete="tel" placeholder="09 ___ ___ ___" className="field" /></Field>
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="တိုင်း / ပြည်နယ်">
-            <select name="region" required defaultValue="ရန်ကုန်" className="field">
-              {regions.map((region) => <option key={region}>{region}</option>)}
-            </select>
-          </Field>
-          <Field label="မြို့နယ်"><input name="township" required maxLength={60} className="field" /></Field>
+        <div className="flex flex-col gap-1.5 border-t border-line pt-2 text-sm">
+          <div className="flex justify-between text-soft"><span>ပစ္စည်း</span><span>{formatMmk(subtotal)}</span></div>
+          <div className="flex justify-between text-soft"><span>ပို့ခ</span><span>{formatMmk(deliveryFeeMmk)}</span></div>
+          <div className="flex justify-between text-lg font-bold"><span>စုစုပေါင်း</span><span>{formatMmk(subtotal + deliveryFeeMmk)}</span></div>
         </div>
-        <Field label="လမ်း / ရပ်ကွက် နှင့် အမှတ်အသား">
-          <textarea name="address" required minLength={3} maxLength={500} rows={2} placeholder="ဥပမာ — ၅ လမ်း၊ (၃) ရပ်ကွက်၊ ဘုရားရှေ့" className="field" />
-        </Field>
-      </div>
-
-      <fieldset>
-        <legend className="mb-2 font-semibold">ငွေပေးချေမည့်နည်း</legend>
-        <div className="grid grid-cols-2 gap-2">
-          {[["cod", "အိမ်ရောက်ငွေချေ (COD)"], ["transfer", "ငွေလွှဲ (KBZPay၊ Wave၊ ဘဏ်)"]].map(([value, label], i) => (
-            <label key={value} className="flex min-h-14 cursor-pointer items-center justify-center rounded-xl border border-[#d9d3c4] bg-card px-3 py-2 text-center text-sm font-semibold has-checked:border-2 has-checked:border-teal has-checked:bg-mint has-focus-visible:outline-2 has-focus-visible:outline-teal">
-              <input type="radio" name="paymentMethod" value={value} defaultChecked={i === 0} className="sr-only" />
-              {label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <section className="sticky bottom-0 -mx-4 flex flex-col gap-2 border-t border-line bg-card p-4">
-        <div className="flex justify-between text-sm text-soft"><span>ပစ္စည်း</span><span>{formatMmk(subtotal)}</span></div>
-        <div className="flex justify-between text-sm text-soft"><span>ပို့ခ</span><span>{formatMmk(deliveryFeeMmk)}</span></div>
-        <div className="flex justify-between text-lg font-bold"><span>စုစုပေါင်း</span><span>{formatMmk(subtotal + deliveryFeeMmk)}</span></div>
         {state?.error ? <p role="alert" className="rounded-xl bg-danger-wash px-3 py-2 text-sm font-semibold text-danger">{state.error}</p> : null}
         <PendingProvider value={pending}>
           <Submit className="btn-primary w-full">အော်ဒါ တင်မည်</Submit>

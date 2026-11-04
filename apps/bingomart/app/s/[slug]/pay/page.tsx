@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { use } from "react";
 import { CopyButton } from "@/components/copy-button";
-import { MobileScreen } from "@/components/mobile";
+import { WideScreen } from "@/components/mobile";
 import { Notice, money } from "@/components/kit";
 
 const accounts = [
@@ -20,7 +20,7 @@ export default function PayPage({ params }: { params: Promise<{ slug: string }> 
   const tooBig = (file?.size ?? 0) > MAX_BYTES;
 
   return (
-    <MobileScreen
+    <WideScreen
       title="ငွေလွှဲ ပေးချေရန်"
       sub="အော်ဒါ #1049"
       back={`/s/${slug}/checkout/done`}
@@ -55,6 +55,6 @@ export default function PayPage({ params }: { params: Promise<{ slug: string }> 
         {tooBig ? <span role="alert" className="mt-2 block text-sm font-semibold text-danger">ဖိုင် 5 MB ထက် ကြီးနေသည်</span> : null}
       </label>
       <Notice tone="ship">စလစ်ထဲတွင် ပမာဏ၊ ရက်စွဲနှင့် လွှဲသူ အမည် ပေါ်နေရန် လိုသည်။ ဆိုင်ရှင်က စစ်ပြီးမှ အတည်ပြုပါမည်။</Notice>
-    </MobileScreen>
+    </WideScreen>
   );
 }

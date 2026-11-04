@@ -13,7 +13,7 @@ export default async function CartPage({ params }: { params: Promise<{ slug: str
   const { shop, products } = result.data;
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-md flex-col">
+    <div className="mx-auto flex min-h-svh max-w-[84rem] flex-col">
       <ShopHeader name={shop.name} slug={slug} products={products} />
       <main id="main" className="flex-1">
         <CartClient slug={slug} products={products} deliveryFeeMmk={shop.deliveryFeeMmk} />

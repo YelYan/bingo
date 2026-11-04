@@ -13,9 +13,9 @@ export default async function MyOrdersPage({ params }: { params: Promise<{ slug:
   if (!result.ok) notFound();
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-md flex-col">
+    <div className="mx-auto flex min-h-svh max-w-[84rem] flex-col">
       <ShopHeader name={result.data.shop.name} slug={slug} products={result.data.products} />
-      <main id="main" className="flex-1 p-4">
+      <main id="main" className="mx-auto w-full max-w-xl flex-1 p-4 sm:p-8">
         <h1 className="mb-3 text-lg font-bold">ကျွန်ုပ် အော်ဒါများ</h1>
         <p className="rounded-xl bg-[#e7f0fb] px-3.5 py-3 text-[0.8125rem] text-[#1f4e8c]">
           အော်ဒါတင်ပြီးချိန်တွင် ပေးထားသော ခြေရာခံလင့်ခ်ဖြင့်သာ အော်ဒါကို ကြည့်နိုင်ပါသည် — အကောင့်ဖြင့် ဝင်ရောက်ခြင်း မရှိသေးပါ။

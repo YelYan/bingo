@@ -11,7 +11,7 @@ export default async function SavedPage({ params }: { params: Promise<{ slug: st
   if (!result.ok) notFound();
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-md flex-col">
+    <div className="mx-auto flex min-h-svh max-w-[84rem] flex-col">
       <ShopHeader name={result.data.shop.name} slug={slug} products={result.data.products} />
       <main id="main" className="flex flex-1 flex-col items-center justify-center gap-3 p-10 text-center">
         <p className="text-5xl" aria-hidden="true">♡</p>
