@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { api } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Screen index", robots: { index: false } };
 
@@ -7,8 +8,8 @@ export const metadata: Metadata = { title: "Screen index", robots: { index: fals
 const groups: [string, [string, string][]][] = [
   ["Shopper storefront", [
     ["Storefront", "/s/aye-fashion"],
-    ["Product detail", "/s/aye-fashion/p/p1"],
-    ["Product reviews", "/s/aye-fashion/p/p1/reviews"],
+    ["Product detail", "/s/aye-fashion/p/PID"],
+    ["Product reviews", "/s/aye-fashion/p/PID/reviews"],
     ["Search", "/s/aye-fashion/search"],
     ["Cart", "/s/aye-fashion/cart"],
     ["Checkout", "/s/aye-fashion/checkout"],
@@ -20,10 +21,10 @@ const groups: [string, [string, string][]][] = [
     ["Loyalty points (shopper)", "/s/aye-fashion/points"],
     ["Book a service", "/s/aye-fashion/book"],
     ["Restaurant table order", "/s/aye-fashion/table"],
-    ["Digital goods delivery", "/s/aye-fashion/p/p1/digital"],
-    ["Prescription upload", "/s/aye-fashion/p/p1/prescription"],
-    ["Gift order", "/s/aye-fashion/p/p1/gift"],
-    ["Reserve / offer (preloved)", "/s/aye-fashion/p/p1/reserve"],
+    ["Digital goods delivery", "/s/aye-fashion/p/PID/digital"],
+    ["Prescription upload", "/s/aye-fashion/p/PID/prescription"],
+    ["Gift order", "/s/aye-fashion/p/PID/gift"],
+    ["Reserve / offer (preloved)", "/s/aye-fashion/p/PID/reserve"],
   ]],
   ["Tracking and sign-in", [
     ["Delivery tracking (needs a real order link)", "/t/"],
@@ -99,7 +100,10 @@ const groups: [string, [string, string][]][] = [
   ]],
 ];
 
-export default function ScreensPage() {
+export default async function ScreensPage() {
+  // Mock product ids are random per start, so the product links use the first live one.
+  const shop = await api("/shops/aye-fashion");
+  const pid = shop.ok ? (shop.data.products[0]?.id ?? "missing") : "missing";
   return (
     <main className="mx-auto max-w-4xl p-8">
       <h1 className="text-2xl font-bold text-deep">BingoMart — screen index (internal)</h1>
@@ -108,9 +112,12 @@ export default function ScreensPage() {
         <section key={title} className="mt-8">
           <h2 className="mb-2 text-lg font-bold">{title}</h2>
           <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
-            {links.map(([label, href]) => (
-              <li key={href}><Link href={href} className="text-teal underline underline-offset-2">{label}</Link></li>
-            ))}
+            {links.map(([label, raw]) => {
+              const href = raw.replace("PID", pid);
+              return (
+                <li key={raw}><Link href={href} className="text-teal underline underline-offset-2">{label}</Link></li>
+              );
+            })}
           </ul>
         </section>
       ))}
