@@ -13,7 +13,7 @@ import { process, services } from "@/lib/services";
 export const metadata: Metadata = {
   title: "Branding, Design & Development Services",
   description:
-    "Branding, graphic design, UI/UX design, website development and mobile development — the five things Bingo does, and exactly what you get with each.",
+    "Branding, graphic design, UI/UX design, website development, mobile development and AI automation — the six things Bingo does, and exactly what you get with each.",
   alternates: { canonical: "/services" },
 };
 
@@ -36,7 +36,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         title={
           <>
-            Five services.
+            Six services.
             <br /> One team that gets it done.
           </>
         }

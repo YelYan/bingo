@@ -4,7 +4,8 @@ export type Service = {
     | "graphic-design"
     | "ui-ux-design"
     | "website-development"
-    | "mobile-development";
+    | "mobile-development"
+    | "ai-automation";
   index: string;
   title: string;
   /** One or two words, for nav and tight spaces. */
@@ -106,6 +107,24 @@ export const services: Service[] = [
     outcome:
       "A reliable app your customers actually keep on their phone.",
     cta: "Plan My App",
+  },
+  {
+    slug: "ai-automation",
+    index: "06",
+    title: "Let AI Handle The Repetitive Work",
+    short: "AI Automation",
+    description:
+      "Chatbots, auto-replies, lead follow-ups, data entry, report generation. We build AI into your day-to-day so the boring, repeated tasks run themselves and your team gets its time back.",
+    included: [
+      "Custom AI chatbots & assistants",
+      "Workflow & task automation",
+      "Lead capture & follow-up flows",
+      "Document & report generation",
+      "Integration with your existing tools",
+    ],
+    outcome:
+      "Less manual work, faster replies, more hours back in the week.",
+    cta: "Automate My Work",
   },
 ];
 
