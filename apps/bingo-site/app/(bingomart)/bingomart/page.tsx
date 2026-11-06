@@ -104,8 +104,9 @@ export default function BingoMartPage() {
           </Link>
           <nav aria-label="BingoMart" className="flex items-center gap-6">
             {[
-              ["Features", "#features"],
-              ["How it works", "#how"],
+              ["Product", "#features"],
+              ["Solutions", "#solutions"],
+              ["Resources", "#how"],
               ["Pricing", "#pricing"],
             ].map(([label, href]) => (
               <a
@@ -212,7 +213,7 @@ export default function BingoMartPage() {
           </div>
         </section>
 
-        <section className="bg-mart-ink py-20 text-mart-paper lg:py-22">
+        <section id="solutions" className="scroll-mt-20 bg-mart-ink py-20 text-mart-paper lg:py-22">
           <div className={`${gutter} grid gap-12 lg:grid-cols-[1fr_2fr]`}>
             <h2 className={sectionTitle}>Built for how Myanmar sells</h2>
             <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
