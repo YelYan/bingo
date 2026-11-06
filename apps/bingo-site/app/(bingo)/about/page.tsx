@@ -2,10 +2,11 @@
 import { CtaBand } from "@/components/cta-band";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
-import { Spark } from "@/components/logo";
 import { WindowFrame } from "@/components/window-frame";
+import { TeamAvatar } from "@/components/team-avatar";
 import { Container, Eyebrow, SectionHeading } from "@/components/ui";
 import { process } from "@/lib/services";
+import { team } from "@/lib/team";
 import { site, stats } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -35,29 +36,6 @@ const principles = [
     title: "Hand over everything",
     detail:
       "Repo, domain, analytics, brand files, documentation. Lock-in is a business model, not a service. If you outgrow us, we want the handover to be boring.",
-  },
-];
-
-const team = [
-  {
-    name: "Naomi Adeyemi",
-    role: "Founder, design direction",
-    line: "Fifteen years between an editorial desk and a product team. Writes the sentence the site has to land.",
-  },
-  {
-    name: "Kwesi Boateng",
-    role: "Engineering lead",
-    line: "Cares more about Interaction to Next Paint than anyone should. Builds the thing you approved, exactly.",
-  },
-  {
-    name: "Petra Lindqvist",
-    role: "Search & content",
-    line: "Reads crawl logs for fun. Turns intake calls into the questions your buyers are already typing.",
-  },
-  {
-    name: "Rafael Ortiz",
-    role: "Brand systems",
-    line: "Type, colour and the rules that stop both from drifting once fifty people touch them.",
   },
 ];
 
@@ -190,27 +168,40 @@ export default function AboutPage() {
         <Container>
           <Eyebrow tone="paper">Who you'll talk to</Eyebrow>
           <h2 className="mt-6 max-w-3xl text-[clamp(2.1rem,5.2vw,3.9rem)] text-paper">
-            Four people. No account layer in between.
+            Five founders. No account layer in between.
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-sand-soft">
             The people in the pitch are the people doing the work. That is the
             main advantage of staying this size, and we intend to keep it.
           </p>
 
-          <ul className="mt-16 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-16 flex flex-wrap gap-x-8 gap-y-14">
             {team.map((person, i) => (
               <Reveal
                 key={person.name}
                 as="li"
                 delay={i * 70}
-                className="border-t border-line-dark pt-7 sm:pr-8"
+                className="group w-full border-t border-line-dark pt-7 sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
               >
-                <Spark className="h-2.5 w-[0.4rem]" />
-                <h3 className="mt-4 text-xl text-paper">{person.name}</h3>
+                <TeamAvatar
+                  who={person.name}
+                  className="h-28 w-28 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:-rotate-6 group-hover:scale-105 motion-reduce:transition-none"
+                />
+                <h3 className="mt-5 text-2xl text-paper">{person.name}</h3>
                 <p className="mt-1.5 text-xs tracking-[0.14em] text-spark-lift uppercase">
-                  {person.role}
+                  Founder
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-sand-soft">
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {person.roles.map((r) => (
+                    <li
+                      key={r}
+                      className="rounded-full border border-line-dark px-3 py-1 text-xs text-sand-soft"
+                    >
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm leading-relaxed text-sand-soft">
                   {person.line}
                 </p>
               </Reveal>
@@ -222,7 +213,7 @@ export default function AboutPage() {
       <CtaBand
         eyebrow="Working together"
         title="We take on eight projects a year."
-        lead="That is the honest capacity of four people who refuse to subcontract the interesting parts. If the timing works, we would like to hear what you are building."
+        lead="That is the honest capacity of five founders who refuse to subcontract the interesting parts. If the timing works, we would like to hear what you are building."
         secondary={{ href: "/services", label: "See our services" }}
       />
     </>

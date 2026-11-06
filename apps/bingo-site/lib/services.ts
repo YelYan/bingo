@@ -1,10 +1,10 @@
 export type Service = {
   slug:
-    | "web-design"
-    | "local-seo"
-    | "social-scheduling"
-    | "website-care"
-    | "ai-solutions";
+    | "branding"
+    | "graphic-design"
+    | "ui-ux-design"
+    | "website-development"
+    | "mobile-development";
   index: string;
   title: string;
   /** One or two words, for nav and tight spaces. */
@@ -18,91 +18,94 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    slug: "web-design",
+    slug: "branding",
     index: "01",
-    title: "Websites That Actually Do Their Job",
-    short: "Web Design",
+    title: "A Brand People Remember And Trust",
+    short: "Branding",
     description:
-      "Your website should be more than a digital business card. We design and build fast, clean, mobile-friendly websites that reflect your brand and actually convert visitors into customers — no bloated templates, no confusing navigation, no guesswork.",
+      "Your brand is more than a logo. We work out who you are, who you are for, and how you should sound, then turn it into a clear identity you can use everywhere, from your shop sign to your Facebook page.",
     included: [
-      "Custom design built around your brand",
-      "Mobile-first, fast-loading pages",
-      "Clear navigation & conversion-focused layout",
-      "SEO-ready structure from day one",
-      "Ongoing edits during the build",
+      "Brand strategy & positioning",
+      "Naming, tagline & voice",
+      "Logo & visual identity system",
+      "Colour, type & usage guidelines",
+      "Brand launch kit",
     ],
     outcome:
-      "A website that looks professional, loads fast, and actually gets people to take action.",
-    cta: "Start Your Website",
+      "A brand that looks consistent, sounds like you, and is easy for customers to remember.",
+    cta: "Build My Brand",
   },
   {
-    slug: "local-seo",
+    slug: "graphic-design",
     index: "02",
-    title: "Get Found By People Actually Looking For You",
-    short: "Local SEO",
+    title: "Graphics That Stop The Scroll",
+    short: "Graphic Design",
     description:
-      "Ranking on Google isn't magic, it's strategy. We optimize your website, listings, and content so local customers can find you when they search, instead of scrolling past you to your competitor.",
+      "Posts, posters, packaging, menus, pitch decks. We design the everyday pieces your business needs so they look sharp and stay on brand, without you opening a design tool.",
     included: [
-      "Google Business Profile optimization",
-      "On-page SEO (titles, descriptions, structure)",
-      "Local keyword targeting",
-      "Citation & listing cleanup",
-      "Monthly visibility tracking",
-    ],
-    outcome: "More local visibility, more clicks, more people finding you first.",
-    cta: "Boost My Visibility",
-  },
-  {
-    slug: "social-scheduling",
-    index: "03",
-    title: "Social Content, Powered By Your Own Website",
-    short: "AI Social",
-    description:
-      "We use AI to turn your website content into ready-to-post social content, scheduled and published automatically, so your socials stay active without eating up your week.",
-    included: [
-      "AI-generated posts based on your website content",
-      "Custom posting schedule",
-      "Multi-platform support",
-      "Brand-consistent captions & tone",
-      "Monthly content calendar",
+      "Social media post & ad design",
+      "Print: flyers, posters, cards, menus",
+      "Packaging & label design",
+      "Presentation & pitch deck design",
+      "Editable source files handed over",
     ],
     outcome:
-      "Consistent, on-brand social presence, without you writing a single caption.",
-    cta: "Automate My Socials",
+      "Marketing material that looks professional and gets noticed, every time.",
+    cta: "Get Designs Made",
   },
   {
-    slug: "website-care",
+    slug: "ui-ux-design",
+    index: "03",
+    title: "Interfaces People Understand At A Glance",
+    short: "UI/UX Design",
+    description:
+      "Good products feel obvious. We research how your users think, map the journey, and design clean screens and flows for websites and apps, tested before a single line of code is written.",
+    included: [
+      "User research & journey mapping",
+      "Wireframes & clickable prototypes",
+      "High-fidelity UI design",
+      "Design system & component library",
+      "Usability testing & revisions",
+    ],
+    outcome:
+      "A product that is easy to use, easy to build, and hard to get lost in.",
+    cta: "Design My Product",
+  },
+  {
+    slug: "website-development",
     index: "04",
-    title: "Your Website, Actually Taken Care Of",
-    short: "Site Care",
+    title: "Websites Built To Be Fast And Findable",
+    short: "Web Development",
     description:
-      "Websites need upkeep — updates, backups, security checks, small fixes. We handle the behind-the-scenes stuff so your site stays fast, secure, and current while you focus on your business.",
+      "From landing pages to full web apps, we build fast, secure, mobile-first websites that load in a blink and are easy for you to update. Clean code, real hosting, no lock-in.",
     included: [
-      "Regular updates & backups",
-      "Uptime & security monitoring",
-      "Small content edits & fixes",
-      "Performance checkups",
-      "Direct support when something's off",
+      "Responsive, mobile-first build",
+      "Landing pages, business sites & web apps",
+      "SEO-ready structure & fast load times",
+      "CMS or admin so you can edit content",
+      "Hosting, launch & handover",
     ],
-    outcome: "A website that just works, quietly and reliably, in the background.",
-    cta: "Get Ongoing Support",
+    outcome:
+      "A website that works on every device, loads fast, and is ready to grow with you.",
+    cta: "Start My Website",
   },
   {
-    slug: "ai-solutions",
+    slug: "mobile-development",
     index: "05",
-    title: "Smart Tools, Built Around Your Business",
-    short: "AI Solutions",
+    title: "Apps That Live In Your Customers' Pockets",
+    short: "Mobile Development",
     description:
-      "From chatbots to automated workflows, we build simple AI solutions that save you time and handle the repetitive stuff, so you can focus on what actually needs a human.",
+      "We build iOS and Android apps that feel native and run smoothly, from first prototype to store launch. Built for real phones and real networks, including slow ones.",
     included: [
-      "Custom AI chatbots",
-      "Workflow & task automation",
-      "AI-powered customer support tools",
-      "Integration with your existing site/tools",
-      "Ongoing tuning as your needs change",
+      "iOS & Android apps from one codebase",
+      "Offline-friendly, low-data design",
+      "Push notifications & in-app payments",
+      "Backend & API integration",
+      "App Store & Google Play launch",
     ],
-    outcome: "Less manual work, faster response times, more time back in your day.",
-    cta: "Explore AI Solutions",
+    outcome:
+      "A reliable app your customers actually keep on their phone.",
+    cta: "Plan My App",
   },
 ];
 

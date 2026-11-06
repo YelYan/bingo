@@ -11,21 +11,20 @@ import { getProject, projects } from "@/lib/projects";
 import { process, services } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Web Design, Local SEO & AI Services",
+  title: "Branding, Design & Development Services",
   description:
-    "Web design, local SEO, AI social scheduling, website care, and AI solutions — the five things Bingo does, and exactly what you get with each.",
+    "Branding, graphic design, UI/UX design, website development and mobile development — the five things Bingo does, and exactly what you get with each.",
   alternates: { canonical: "/services" },
 };
 
-// shortcut: stand-in photos are existing client site screenshots, one per service; swap for service-specific shots when we have them
+// shortcut: stand-in photos are existing client site screenshots, one per service (none for mobile yet); swap for service-specific shots when we have them
 const showcase = Object.fromEntries(
   (
     [
-      ["web-design", "archform"],
-      ["local-seo", "lone-wolf-studio"],
-      ["social-scheduling", "zippybooks"],
-      ["website-care", "miba-college"],
-      ["ai-solutions", "premium-seaman-service"],
+      ["branding", "ceta-myanmar"],
+      ["graphic-design", "lone-wolf-studio"],
+      ["ui-ux-design", "zippybooks"],
+      ["website-development", "archform"],
     ] as const
   ).map(([service, slug]) => [service, getProject(slug)!]),
 );
