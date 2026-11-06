@@ -2,12 +2,12 @@
 import { CtaBand } from "@/components/cta-band";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
-import { WindowFrame } from "@/components/window-frame";
+import { TeamGroup } from "@/components/team-group";
 import { TeamAvatar } from "@/components/team-avatar";
 import { Container, Eyebrow, SectionHeading } from "@/components/ui";
 import { process } from "@/lib/services";
 import { team } from "@/lib/team";
-import { site, stats } from "@/lib/site";
+import { stats } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Our Web Design Studio",
@@ -58,18 +58,7 @@ export default function AboutPage() {
             service of getting a stranger there faster.
           </>
         }
-        aside={
-          <WindowFrame label="studio.txt" bodyClassName="p-6">
-            <p className="font-serif text-lg leading-snug text-ink">
-              &ldquo;A website is not a brochure. It is the only employee that
-              works every hour, in every timezone, and never gets tired of
-              explaining what you do.&rdquo;
-            </p>
-            <p className="mt-4 text-xs tracking-[0.16em] text-sand-ink uppercase">
-              — Pinned above the desk since {site.founded}
-            </p>
-          </WindowFrame>
-        }
+        aside={<TeamGroup />}
       />
 
       {/* --------- numbers --------- */}

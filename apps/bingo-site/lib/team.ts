@@ -16,7 +16,7 @@ export const team: Member[] = [
   },
   {
     name: "Jerry",
-    roles: ["Brand Strategist", "Branding", "UI/UX Designer"],
+    roles: ["Brand Strategist", "UI/UX Designer"],
     line: "Works out who you are and who you are for, so the brand says one clear thing everywhere it shows up.",
     linkedin: "https://www.linkedin.com/in/jerry-bingo",
   },
