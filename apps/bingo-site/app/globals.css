@@ -149,6 +149,32 @@ p {
   line-height: 1.08;
 }
 
+/* Burmese: the Latin display font has no Myanmar glyphs, so name the Myanmar font next to it.
+   Stacked consonants and vowel marks need more line height than Latin, and tracking must stay 0. */
+.mart [lang="my"] {
+  --font-display: var(--font-dm-sans), var(--font-noto-myanmar), sans-serif;
+  line-height: 1.75;
+}
+
+.mart [lang="my"] h1,
+.mart [lang="my"] h2,
+.mart [lang="my"] h3,
+.mart [lang="my"] h4 {
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* BingoMart product story: the step bar fills, the stage's parts rise in. */
+@keyframes mart-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes mart-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ============================================================
    Signature texture — paper grain + warm vignette.
    Fixed, non-interactive, ~1.6kb inline.

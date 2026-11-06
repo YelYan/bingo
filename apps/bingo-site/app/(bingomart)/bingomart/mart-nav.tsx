@@ -2,110 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import type { Copy } from "./copy";
+import { itemHref, SURVEY, type ItemId } from "./links";
 import { Mark } from "./mark";
 
-export const APP_PREVIEW = "https://bingomart.bingowebstudio.com/screens";
-export const SURVEY =
-  "https://docs.google.com/forms/d/e/1FAIpQLSd8kvmrGfboBFYJicniVkdQVWHQ9MFPDmDnFVPrX2YPexrwUA/viewform";
-
-type Item = { label: string; detail: string; href: string };
-type Menu = {
-  label: string;
-  groups: { eyebrow: string; items: Item[] }[];
-  footer: { title: string; detail: string; cta: string; href: string };
-};
-
-// Foundable-style menus. Every item lands on a real section or page; nothing points at a page we have not built.
-const menus: Menu[] = [
-  {
-    label: "Product",
-    groups: [
-      {
-        eyebrow: "Sell",
-        items: [
-          { label: "Web shop", detail: "A shop on your own web address.", href: "#shop" },
-          { label: "Chat orders", detail: "An AI assistant takes orders day and night.", href: "#chat-orders" },
-          { label: "Counter sales", detail: "A point of sale that works offline.", href: "#pos" },
-        ],
-      },
-      {
-        eyebrow: "Get paid and deliver",
-        items: [
-          { label: "Receipt checks", detail: "Reads transfer slips and flags repeats.", href: "#receipts" },
-          { label: "Delivery tracking", detail: "A link your shoppers can follow.", href: "#delivery" },
-          { label: "Profit reports", detail: "Best and slow sellers, by day or month.", href: "#reports" },
-        ],
-      },
-    ],
-    footer: {
-      title: "See it working",
-      detail: "Demo screens with example data.",
-      cta: "Preview the app",
-      href: APP_PREVIEW,
-    },
-  },
-  {
-    label: "Solutions",
-    groups: [
-      {
-        eyebrow: "Who it's for",
-        items: [
-          { label: "Chat sellers", detail: "Orders arrive on Telegram, Facebook or TikTok.", href: "#chat-sellers" },
-          { label: "Shops with a counter", detail: "Sell in store and online from one stock list.", href: "#counter-shops" },
-          { label: "Sellers who ship", detail: "Riders, couriers and bus gates.", href: "#shippers" },
-        ],
-      },
-      {
-        eyebrow: "By shop type",
-        items: [
-          { label: "Fashion", detail: "Sizes and colours for every item.", href: "#fashion" },
-          { label: "Beauty", detail: "Shades, sets and repeat buyers.", href: "#beauty" },
-          { label: "Food", detail: "Daily orders and your own riders.", href: "#food" },
-        ],
-      },
-    ],
-    footer: {
-      title: "Built for Myanmar",
-      detail: "Kyat, Burmese and weak internet.",
-      cta: "See why",
-      href: "#myanmar",
-    },
-  },
-  {
-    label: "Resources",
-    groups: [
-      {
-        eyebrow: "Learn",
-        items: [
-          { label: "How it works", detail: "Open a shop in three steps.", href: "#how" },
-          { label: "App preview", detail: "Click through the demo screens.", href: APP_PREVIEW },
-          { label: "Seller survey", detail: "Tell us how you sell today. In Burmese.", href: SURVEY },
-        ],
-      },
-      {
-        eyebrow: "Company",
-        items: [
-          { label: "About Bingo", detail: "The company behind BingoMart.", href: "/about" },
-          { label: "Contact", detail: "Talk to the team.", href: "/contact" },
-          { label: "Privacy", detail: "How we handle your data.", href: "/privacy" },
-        ],
-      },
-    ],
-    footer: {
-      title: "Early access",
-      detail: "Yangon and Mandalay shops first.",
-      cta: "Join",
-      href: "#access",
-    },
-  },
-];
-
-function NavLink({ href, onClick, className, children }: {
-  href: string;
+function NavLink({ id, onClick, className, children }: {
+  id: ItemId;
   onClick: () => void;
   className: string;
   children: React.ReactNode;
 }) {
+  const href: string = itemHref[id];
   if (href.startsWith("/")) {
     return <Link href={href} onClick={onClick} className={className}>{children}</Link>;
   }
@@ -139,11 +46,12 @@ function Chevron({ className = "" }: { className?: string }) {
   );
 }
 
-export function MartNav({ gutter }: { gutter: string }) {
-  const [open, setOpen] = useState<string | null>(null);
+export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"]; home: string }) {
+  const menus = nav.menus;
+  const [open, setOpen] = useState<number | null>(null);
   const [mobile, setMobile] = useState(false);
   const header = useRef<HTMLElement>(null);
-  const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
+  const triggers = useRef<Record<number, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     if (!open && !mobile) return;
@@ -181,32 +89,32 @@ export function MartNav({ gutter }: { gutter: string }) {
       <div className={`${gutter} flex items-center justify-between gap-4 py-3`}>
         <div className="flex items-center gap-8">
           <Link
-            href="/bingomart"
-            aria-label="BingoMart home"
+            href={home}
+            aria-label={nav.home}
             className="flex min-h-11 items-center gap-2 font-display text-xl font-bold tracking-[-0.02em] text-mart-ink sm:gap-2.5 sm:text-2xl"
           >
             <Mark className="h-9 w-9 rounded-[0.625rem] text-[0.9375rem]" />
             BingoMart
           </Link>
 
-          <nav aria-label="BingoMart" className="relative hidden items-center gap-1 md:flex">
-            {menus.map((menu) => {
-              const isOpen = open === menu.label;
-              const id = `mart-menu-${menu.label.toLowerCase()}`;
+          <nav aria-label={nav.label} className="relative hidden items-center gap-1 md:flex">
+            {menus.map((menu, mi) => {
+              const isOpen = open === mi;
+              const id = `mart-menu-${mi}`;
               return (
-                <div key={menu.label}>
+                <div key={mi}>
                   <button
                     ref={(el) => {
-                      triggers.current[menu.label] = el;
+                      triggers.current[mi] = el;
                     }}
                     type="button"
                     aria-expanded={isOpen}
                     aria-controls={id}
                     // Hover already opened it for a mouse, so a mouse click must not toggle it shut.
                     onClick={(e) =>
-                      setOpen(isOpen && (e.nativeEvent as PointerEvent).pointerType !== "mouse" ? null : menu.label)
+                      setOpen(isOpen && (e.nativeEvent as PointerEvent).pointerType !== "mouse" ? null : mi)
                     }
-                    onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(menu.label)}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(mi)}
                     className={`inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-[0.9375rem] font-medium transition-colors ${
                       isOpen ? "bg-mart-sand text-mart-ink" : "text-mart-text hover:text-mart-teal"
                     }`}
@@ -226,7 +134,7 @@ export function MartNav({ gutter }: { gutter: string }) {
                               {group.items.map((item) => (
                                 <li key={item.label}>
                                   <NavLink
-                                    href={item.href}
+                                    id={item.id}
                                     onClick={close}
                                     className="-mx-3 block rounded-xl px-3 py-2.5 transition-colors hover:bg-mart-paper"
                                   >
@@ -242,7 +150,7 @@ export function MartNav({ gutter }: { gutter: string }) {
                         ))}
                       </div>
                       <NavLink
-                        href={menu.footer.href}
+                        id={menu.footer.id}
                         onClick={close}
                         className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-mart-sand px-8 py-4 text-[0.9375rem] transition-colors hover:bg-[#e8e2cf]"
                       >
@@ -264,7 +172,7 @@ export function MartNav({ gutter }: { gutter: string }) {
               onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(null)}
               className="inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.9375rem] font-medium hover:text-mart-teal"
             >
-              Pricing
+              {nav.pricing}
             </a>
           </nav>
         </div>
@@ -275,7 +183,7 @@ export function MartNav({ gutter }: { gutter: string }) {
             onClick={close}
             className="inline-flex min-h-11 items-center rounded-full bg-mart-teal px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-mart-ink sm:px-5 sm:text-[0.9375rem]"
           >
-            Join early access
+            {nav.join}
           </a>
           <button
             type="button"
@@ -284,7 +192,7 @@ export function MartNav({ gutter }: { gutter: string }) {
             aria-controls="mart-mobile-nav"
             className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-mart-line text-mart-ink transition-colors hover:border-mart-ink md:hidden"
           >
-            <span className="sr-only">{mobile ? "Close menu" : "Open menu"}</span>
+            <span className="sr-only">{mobile ? nav.close : nav.open}</span>
             <svg
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -302,13 +210,13 @@ export function MartNav({ gutter }: { gutter: string }) {
 
       <nav
         id="mart-mobile-nav"
-        aria-label="BingoMart mobile"
+        aria-label={nav.mobileLabel}
         hidden={!mobile}
         className="absolute inset-x-0 top-full max-h-[calc(100dvh-7rem)] overflow-y-auto border-b border-mart-line bg-mart-paper md:hidden"
       >
         <div className={`${gutter} py-2`}>
-          {menus.map((menu) => (
-            <details key={menu.label} className="group border-b border-mart-line">
+          {menus.map((menu, mi) => (
+            <details key={mi} className="group border-b border-mart-line">
               <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between font-display text-xl font-bold text-mart-ink [&::-webkit-details-marker]:hidden">
                 {menu.label}
                 <Chevron className="group-open:rotate-180" />
@@ -320,7 +228,7 @@ export function MartNav({ gutter }: { gutter: string }) {
                     <ul className="mt-1">
                       {group.items.map((item) => (
                         <li key={item.label}>
-                          <NavLink href={item.href} onClick={close} className="block py-2">
+                          <NavLink id={item.id} onClick={close} className="block py-2">
                             <span className="block font-semibold text-mart-ink">{item.label}</span>
                             <span className="block text-sm text-mart-soft">{item.detail}</span>
                           </NavLink>
@@ -330,7 +238,7 @@ export function MartNav({ gutter }: { gutter: string }) {
                   </div>
                 ))}
                 <NavLink
-                  href={menu.footer.href}
+                  id={menu.footer.id}
                   onClick={close}
                   className="flex items-center justify-between gap-3 rounded-2xl bg-mart-sand px-4 py-3"
                 >
@@ -348,7 +256,7 @@ export function MartNav({ gutter }: { gutter: string }) {
             onClick={close}
             className="flex min-h-14 items-center font-display text-xl font-bold text-mart-ink"
           >
-            Pricing
+            {nav.pricing}
           </a>
         </div>
       </nav>
