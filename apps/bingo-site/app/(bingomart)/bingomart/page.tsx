@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { flagship } from "@/lib/products";
 import { site } from "@/lib/site";
+import { Mark } from "./mark";
+import { APP_PREVIEW, MartNav, SURVEY } from "./mart-nav";
 
 const EARLY_ACCESS =
   "https://docs.google.com/forms/d/e/1FAIpQLSfWjZtl1qFF-oP2PirnVOIHfHas7bioAL9apqNrTU6AD78Zbw/viewform";
-const SURVEY =
-  "https://docs.google.com/forms/d/e/1FAIpQLSd8kvmrGfboBFYJicniVkdQVWHQ9MFPDmDnFVPrX2YPexrwUA/viewform";
-
-// The BingoMart app Worker, attached to this domain in Cloudflare. Demo data only.
-const APP_PREVIEW = "https://bingomart.bingowebstudio.com/screens";
 
 const gutter ="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-12";
 const button =
@@ -42,13 +39,27 @@ const jobs = [
   ["Parcels nobody can track", "Riders, couriers and bus gates, and shoppers keep asking where it is."],
 ];
 
+// The id is the anchor the Product menu links to.
 const features = [
-  ["A shop on your own web address", "A storefront built from templates for your category. Share the link anywhere."],
-  ["Orders from chat and the web", "An AI assistant answers shoppers day and night, takes orders and calls you when a person is needed."],
-  ["Receipts checked, you decide", "BingoMart reads the amount, date and transaction ID and flags repeats. You approve."],
-  ["Parcels shoppers can follow", "Your rider, a courier or a bus gate: record each step and show a delivery window."],
-  ["Counter sales and stock", "A point of sale that keeps working when the internet drops, with stock and cost price in one list."],
-  ["Reports that show profit", "Income, profit, best sellers and slow sellers, by day, month or year."],
+  ["shop", "A shop on your own web address", "A storefront built from templates for your category. Share the link anywhere."],
+  ["chat-orders", "Orders from chat and the web", "An AI assistant answers shoppers day and night, takes orders and calls you when a person is needed."],
+  ["receipts", "Receipts checked, you decide", "BingoMart reads the amount, date and transaction ID and flags repeats. You approve."],
+  ["delivery", "Parcels shoppers can follow", "Your rider, a courier or a bus gate: record each step and show a delivery window."],
+  ["pos", "Counter sales and stock", "A point of sale that keeps working when the internet drops, with stock and cost price in one list."],
+  ["reports", "Reports that show profit", "Income, profit, best sellers and slow sellers, by day, month or year."],
+];
+
+// Anchors for the Solutions menu. Who first, from the seller research: shops feeling the pain now.
+const sellers = [
+  ["chat-sellers", "Chat sellers", "Orders get lost between messages.", "Every chat order lands in one list, and the AI assistant answers while you sleep."],
+  ["counter-shops", "Shops with a counter", "Stock in a notebook, sales in two places.", "One stock list for the counter and the web shop. The counter keeps working offline."],
+  ["shippers", "Sellers who ship", "“Where is my parcel?” all day.", "Record each step and send shoppers a tracking link with a delivery window."],
+];
+
+const shopTypes = [
+  ["fashion", "Fashion", "Sizes and colours on every item, and new drops shared as one link."],
+  ["beauty", "Beauty", "Shades and sets, with best sellers and slow sellers in your reports."],
+  ["food", "Food", "Daily orders from chat, delivered by your own riders."],
 ];
 
 const myanmar = [
@@ -63,19 +74,6 @@ const steps = [
   ["Add your products", "Type them in, import a spreadsheet, or ask our team to set up for you."],
   ["Share your shop link", "Connect web chat and Telegram, then take your first order."],
 ];
-
-function Mark({ className = "", inverted = false }: { className?: string; inverted?: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`inline-flex items-center justify-center font-display font-bold ${
-        inverted ? "bg-mart-saffron text-mart-ink" : "bg-mart-ink text-mart-saffron"
-      } ${className}`}
-    >
-      Bm
-    </span>
-  );
-}
 
 export default function BingoMartPage() {
   return (
@@ -92,40 +90,7 @@ export default function BingoMartPage() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 border-b border-mart-line bg-mart-paper/95 backdrop-blur-sm">
-        <div className={`${gutter} flex items-center justify-between gap-4 py-3`}>
-          <Link
-            href="/bingomart"
-            aria-label="BingoMart home"
-            className="flex min-h-11 items-center gap-2 font-display text-xl font-bold tracking-[-0.02em] text-mart-ink sm:gap-2.5 sm:text-2xl"
-          >
-            <Mark className="h-9 w-9 rounded-[0.625rem] text-[0.9375rem]" />
-            BingoMart
-          </Link>
-          <nav aria-label="BingoMart" className="flex items-center gap-6">
-            {[
-              ["Product", "#features"],
-              ["Solutions", "#solutions"],
-              ["Resources", "#how"],
-              ["Pricing", "#pricing"],
-            ].map(([label, href]) => (
-              <a
-                key={href}
-                href={href}
-                className="hidden min-h-11 items-center text-[0.9375rem] font-medium hover:text-mart-teal md:inline-flex"
-              >
-                {label}
-              </a>
-            ))}
-            <a
-              href="#access"
-              className="inline-flex min-h-11 items-center rounded-full bg-mart-teal px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-mart-ink sm:px-5 sm:text-[0.9375rem]"
-            >
-              Join early access
-            </a>
-          </nav>
-        </div>
-      </header>
+      <MartNav gutter={gutter} />
 
       <main id="main">
         <section className={`${gutter} grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:py-22`}>
@@ -203,8 +168,8 @@ export default function BingoMartPage() {
               What BingoMart will do for your shop
             </h2>
             <ul className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map(([title, detail]) => (
-                <li key={title}>
+              {features.map(([id, title, detail]) => (
+                <li key={id} id={id} className="scroll-mt-24">
                   <h3 className="text-2xl text-mart-ink">{title}</h3>
                   <p className="mt-2 leading-relaxed text-mart-soft">{detail}</p>
                 </li>
@@ -213,7 +178,34 @@ export default function BingoMartPage() {
           </div>
         </section>
 
-        <section id="solutions" className="scroll-mt-20 bg-mart-ink py-20 text-mart-paper lg:py-22">
+        <section id="solutions" className="scroll-mt-20 bg-mart-sand py-20 lg:py-22">
+          <div className={gutter}>
+            <h2 className={`${sectionTitle} text-mart-ink`}>Who BingoMart is for</h2>
+            <p className="mt-3 max-w-2xl text-lg leading-relaxed text-mart-soft">
+              Small shops that sell through chat. Yangon and Mandalay first.
+            </p>
+            <ul className="mt-10 grid gap-5 md:grid-cols-3">
+              {sellers.map(([id, title, pain, fix]) => (
+                <li key={id} id={id} className="scroll-mt-24 rounded-[1.5rem] bg-mart-paper p-7">
+                  <h3 className="text-2xl text-mart-ink">{title}</h3>
+                  <p className="mt-3 font-semibold text-mart-amber">{pain}</p>
+                  <p className="mt-2 leading-relaxed text-mart-soft">{fix}</p>
+                </li>
+              ))}
+            </ul>
+            <h3 className="mt-16 text-[1.625rem] text-mart-ink">First shop types</h3>
+            <ul className="mt-6 grid gap-10 md:grid-cols-3">
+              {shopTypes.map(([id, title, detail]) => (
+                <li key={id} id={id} className="scroll-mt-24 border-t-4 border-mart-saffron pt-5">
+                  <h4 className="font-display text-xl font-bold text-mart-ink">{title}</h4>
+                  <p className="mt-2 leading-relaxed text-mart-soft">{detail}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section id="myanmar" className="scroll-mt-20 bg-mart-ink py-20 text-mart-paper lg:py-22">
           <div className={`${gutter} grid gap-12 lg:grid-cols-[1fr_2fr]`}>
             <h2 className={sectionTitle}>Built for how Myanmar sells</h2>
             <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
