@@ -172,10 +172,26 @@ export default function AboutPage() {
                 delay={i * 70}
                 className="group w-full border-t border-line-dark pt-7 sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
               >
-                <TeamAvatar
-                  who={person.name}
-                  className="h-28 w-28 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:-rotate-6 group-hover:scale-105 motion-reduce:transition-none"
-                />
+                <div className="flex items-end gap-4">
+                  <TeamAvatar
+                    who={person.name}
+                    className="h-28 w-28 shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:-rotate-6 group-hover:scale-105 motion-reduce:transition-none"
+                  />
+                  <p
+                    className="relative mb-3 max-w-[11rem] rounded-2xl rounded-bl-sm px-3.5 py-2 text-sm leading-snug font-medium text-ink before:absolute before:-bottom-1.5 before:left-3 before:h-3 before:w-3 before:rotate-45 before:rounded-[2px] before:bg-[inherit] before:content-['']"
+                    style={{
+                      backgroundColor: [
+                        "#f8e3d6",
+                        "#e7dccd",
+                        "#b9d2cc",
+                        "#fbe7b5",
+                        "#d4e4f1",
+                      ][i],
+                    }}
+                  >
+                    {person.says}
+                  </p>
+                </div>
                 <h3 className="mt-5 text-2xl text-paper">{person.name}</h3>
                 <p className="mt-1.5 text-xs tracking-[0.14em] text-spark-lift uppercase">
                   Founder
