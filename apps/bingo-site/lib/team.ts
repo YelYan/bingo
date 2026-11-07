@@ -28,8 +28,8 @@ export const team: Member[] = [
   },
   {
     name: "Nick",
-    roles: ["Full-Stack Developer", "Digital Marketer", "Product Owner"],
-    line: "Takes a product from idea to live to found, and decides what gets built next.",
+    roles: ["Full-Stack Developer", "Business Analyst", "Digital Marketer", "Product Owner"],
+    line: "Takes a product from idea to live to found, reads the numbers, and decides what gets built next.",
     linkedin: "https://www.linkedin.com/in/nick-bingo",
   },
   {
