@@ -8,12 +8,13 @@ export const APP_PREVIEW = "https://bingomart.bingowebstudio.com/screens";
 
 // Where each menu item goes. One list for both languages, so a link cannot drift between them.
 export const itemHref = {
-  shop: "#shop",
-  chatOrders: "#chat-orders",
-  pos: "#pos",
-  receipts: "#receipts",
-  delivery: "#delivery",
-  reports: "#reports",
+  // "./" = relative to the language's BingoMart home, so /bingomart/my keeps readers in Burmese.
+  shop: "./features/web-shop",
+  chatOrders: "./features/chat-orders",
+  pos: "./features/counter-sales",
+  receipts: "./features/receipt-checks",
+  delivery: "./features/delivery-tracking",
+  reports: "./features/profit-reports",
   chatSellers: "#chat-sellers",
   counterShops: "#counter-shops",
   shippers: "#shippers",
@@ -32,3 +33,12 @@ export const itemHref = {
 } as const;
 
 export type ItemId = keyof typeof itemHref;
+
+// base is the language's BingoMart home (/bingomart or /bingomart/my). In-page anchors get it too,
+// so a menu link works from a feature page as well as from the landing page.
+export function resolveHref(id: ItemId, base: string): string {
+  const href: string = itemHref[id];
+  if (href.startsWith("#")) return base + href;
+  if (href.startsWith("./")) return base + href.slice(1);
+  return href;
+}

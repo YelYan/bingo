@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { copy, featureIds, paths, sellerIds, shopTypeIds, type Lang } from "./copy";
+import { featureCopy, slugByAnchor } from "./features";
 import { LangSwitch } from "./lang-switch";
 import { APP_PREVIEW, EARLY_ACCESS, SURVEY } from "./links";
 import { Mark } from "./mark";
@@ -18,10 +19,8 @@ const orderTones = [
   "bg-[#f0f4f2] text-[#3b433e]",
 ];
 
-export function MartPage({ lang }: { lang: Lang }) {
+export function MartShell({ lang, suffix = "", children }: { lang: Lang; suffix?: string; children: React.ReactNode }) {
   const c = copy[lang];
-  // Burmese glyphs are wide and tall: a smaller headline and a looser line height (see .mart [lang="my"]).
-  const heroTitle = lang === "my" ? "text-[clamp(2.1rem,4.6vw,3.5rem)]" : "text-[clamp(2.75rem,6vw,4.75rem)]";
 
   return (
     <div lang={lang === "my" ? "my" : undefined}>
@@ -29,7 +28,7 @@ export function MartPage({ lang }: { lang: Lang }) {
         <div className={`${gutter} flex min-h-11 items-center justify-between gap-4`}>
           <span className="max-sm:hidden">{c.topbar.label}</span>
           <div className="flex items-center gap-4 max-sm:w-full max-sm:justify-between">
-            <LangSwitch lang={lang} label={c.topbar.switchLabel} />
+            <LangSwitch lang={lang} suffix={suffix} label={c.topbar.switchLabel} />
             <Link
               href="/"
               className="inline-flex min-h-9 items-center font-semibold text-mart-paper underline-offset-4 hover:underline"
@@ -42,6 +41,39 @@ export function MartPage({ lang }: { lang: Lang }) {
 
       <MartNav gutter={gutter} nav={c.nav} home={paths[lang]} />
 
+      {children}
+
+      <footer className="bg-mart-deep py-12 text-sm text-mart-mist">
+        <div className={`${gutter} flex flex-wrap items-center justify-between gap-6`}>
+          <span className="flex items-center gap-2.5 font-display text-[1.375rem] font-bold text-mart-paper">
+            <Mark inverted className="h-8 w-8 rounded-[0.5625rem] text-[0.8125rem]" />
+            BingoMart
+          </span>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+            <LangSwitch lang={lang} suffix={suffix} label={c.topbar.switchLabel} />
+            <Link href="/" className="inline-flex min-h-11 items-center font-semibold text-mart-paper hover:underline">
+              {c.footer.product}
+            </Link>
+            <Link href="/privacy" className="inline-flex min-h-11 items-center hover:underline">
+              {c.footer.privacy}
+            </Link>
+            <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center break-all hover:underline">
+              {site.email}
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export function MartPage({ lang }: { lang: Lang }) {
+  const c = copy[lang];
+  // Burmese glyphs are wide and tall: a smaller headline and a looser line height (see .mart [lang="my"]).
+  const heroTitle = lang === "my" ? "text-[clamp(2.1rem,4.6vw,3.5rem)]" : "text-[clamp(2.75rem,6vw,4.75rem)]";
+
+  return (
+    <MartShell lang={lang}>
       <main id="main">
         <section className={`${gutter} grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:py-22`}>
           <div>
@@ -119,8 +151,14 @@ export function MartPage({ lang }: { lang: Lang }) {
             <p className="mt-3 max-w-2xl text-lg leading-relaxed text-mart-soft">{c.story.lead}</p>
             {/* Show the screen, not a list: each step plays a small copy of the real app. */}
             <ProductStory
-              steps={featureIds.map((id) => ({ id, title: c.features.items[id][0], detail: c.features.items[id][1] }))}
+              steps={featureIds.map((id) => ({
+                id,
+                title: c.features.items[id][0],
+                detail: c.features.items[id][1],
+                href: `${paths[lang]}/features/${slugByAnchor[id]}`,
+              }))}
               story={c.story}
+              more={featureCopy[lang].shared.seeHow}
             />
           </div>
         </section>
@@ -238,27 +276,6 @@ export function MartPage({ lang }: { lang: Lang }) {
           </div>
         </section>
       </main>
-
-      <footer className="bg-mart-deep py-12 text-sm text-mart-mist">
-        <div className={`${gutter} flex flex-wrap items-center justify-between gap-6`}>
-          <span className="flex items-center gap-2.5 font-display text-[1.375rem] font-bold text-mart-paper">
-            <Mark inverted className="h-8 w-8 rounded-[0.5625rem] text-[0.8125rem]" />
-            BingoMart
-          </span>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-            <LangSwitch lang={lang} label={c.topbar.switchLabel} />
-            <Link href="/" className="inline-flex min-h-11 items-center font-semibold text-mart-paper hover:underline">
-              {c.footer.product}
-            </Link>
-            <Link href="/privacy" className="inline-flex min-h-11 items-center hover:underline">
-              {c.footer.privacy}
-            </Link>
-            <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center break-all hover:underline">
-              {site.email}
-            </a>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </MartShell>
   );
 }

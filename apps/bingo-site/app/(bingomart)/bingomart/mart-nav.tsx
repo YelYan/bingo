@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Copy } from "./copy";
-import { itemHref, SURVEY, type ItemId } from "./links";
+import { resolveHref, SURVEY, type ItemId } from "./links";
 import { Mark } from "./mark";
 
-function NavLink({ id, onClick, className, children }: {
+function NavLink({ id, base, onClick, className, children }: {
   id: ItemId;
+  base: string;
   onClick: () => void;
   className: string;
   children: React.ReactNode;
 }) {
-  const href: string = itemHref[id];
+  const href = resolveHref(id, base);
   if (href.startsWith("/")) {
     return <Link href={href} onClick={onClick} className={className}>{children}</Link>;
   }
@@ -134,6 +135,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
                               {group.items.map((item) => (
                                 <li key={item.label}>
                                   <NavLink
+                                    base={home}
                                     id={item.id}
                                     onClick={close}
                                     className="-mx-3 block rounded-xl px-3 py-2.5 transition-colors hover:bg-mart-paper"
@@ -150,6 +152,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
                         ))}
                       </div>
                       <NavLink
+                                    base={home}
                         id={menu.footer.id}
                         onClick={close}
                         className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-mart-sand px-8 py-4 text-[0.9375rem] transition-colors hover:bg-[#e8e2cf]"
@@ -167,7 +170,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
               );
             })}
             <a
-              href="#pricing"
+              href={`${home}#pricing`}
               onClick={close}
               onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(null)}
               className="inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.9375rem] font-medium hover:text-mart-teal"
@@ -179,7 +182,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
 
         <div className="flex items-center gap-2">
           <a
-            href="#access"
+            href={`${home}#access`}
             onClick={close}
             className="inline-flex min-h-11 items-center rounded-full bg-mart-teal px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-mart-ink sm:px-5 sm:text-[0.9375rem]"
           >
@@ -228,7 +231,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
                     <ul className="mt-1">
                       {group.items.map((item) => (
                         <li key={item.label}>
-                          <NavLink id={item.id} onClick={close} className="block py-2">
+                          <NavLink base={home} id={item.id} onClick={close} className="block py-2">
                             <span className="block font-semibold text-mart-ink">{item.label}</span>
                             <span className="block text-sm text-mart-soft">{item.detail}</span>
                           </NavLink>
@@ -238,6 +241,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
                   </div>
                 ))}
                 <NavLink
+                                    base={home}
                   id={menu.footer.id}
                   onClick={close}
                   className="flex items-center justify-between gap-3 rounded-2xl bg-mart-sand px-4 py-3"
@@ -252,7 +256,7 @@ export function MartNav({ gutter, nav, home }: { gutter: string; nav: Copy["nav"
             </details>
           ))}
           <a
-            href="#pricing"
+            href={`${home}#pricing`}
             onClick={close}
             className="flex min-h-14 items-center font-display text-xl font-bold text-mart-ink"
           >

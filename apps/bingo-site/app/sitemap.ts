@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { featureSlugs } from "./(bingomart)/bingomart/features";
 import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 
@@ -10,6 +11,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/products", priority: 0.9, freq: "monthly" as const },
     { path: "/bingomart", priority: 0.9, freq: "weekly" as const },
     { path: "/bingomart/my", priority: 0.8, freq: "weekly" as const },
+    ...featureSlugs.flatMap((slug) => [
+      { path: `/bingomart/features/${slug}`, priority: 0.8, freq: "monthly" as const },
+      { path: `/bingomart/my/features/${slug}`, priority: 0.7, freq: "monthly" as const },
+    ]),
     { path: "/work", priority: 0.9, freq: "weekly" as const },
     { path: "/services", priority: 0.9, freq: "monthly" as const },
     { path: "/tools", priority: 0.8, freq: "monthly" as const },

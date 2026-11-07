@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { StoryCopy, featureIds } from "./copy";
 
 type Id = (typeof featureIds)[number];
-type Step = { id: Id; title: string; detail: string };
+type Step = { id: Id; title: string; detail: string; href: string };
 
 const STEP_MS = 6500;
 
@@ -215,7 +216,7 @@ function Stage({ id, story }: { id: Id; story: StoryCopy }) {
   );
 }
 
-export function ProductStory({ steps, story }: { steps: Step[]; story: StoryCopy }) {
+export function ProductStory({ steps, story, more }: { steps: Step[]; story: StoryCopy; more: string }) {
   const [active, setActive] = useState(0);
   const [auto, setAuto] = useState(false);
 
@@ -258,6 +259,12 @@ export function ProductStory({ steps, story }: { steps: Step[]; story: StoryCopy
                 </span>
                 {isActive ? <span className="mt-1.5 block leading-relaxed text-mart-soft">{step.detail}</span> : null}
               </button>
+              {/* Outside the button: a link inside a button is invalid HTML. */}
+              {isActive ? (
+                <Link href={step.href} className="-mt-2 mb-4 inline-flex min-h-9 items-center text-sm font-semibold text-mart-teal hover:underline">
+                  {more} →
+                </Link>
+              ) : null}
               <span className="relative -mb-px block h-0.5 overflow-hidden" aria-hidden="true">
                 {isActive ? (
                   <span
